@@ -65,20 +65,20 @@
     
     Where $\mu_i$ is the average of all the values for feature (i) and $s_i$ is the range of values (max - min), or $s_i$ is the standard deviation.
     
-* Note that dividing by the range, or dividing by the standard deviation, give different results. The quizzes in this course use range - the programming exercises use standard deviation.
+* **Note that dividing by the range, or dividing by the standard deviation, give different results.** The quizzes in this course use range - the programming exercises use standard deviation.
 
 * For example, if $x_i$ represents housing prices with a range of 100 to 2000 and a mean value of 1000, then, $x_i := \dfrac{price-1000}{1900}$
 
 ## Gradient Descent in Practice II - Learning Rate
 
-* **Debugging gradient descent**. Make a plot with number of iterations on the x-axis. Now plot the cost function, J(θ) over the number of iterations of gradient descent. If J(θ) ever increases, then you probably need to decrease α.
+* **Debugging gradient descent**. Make a plot with number of iterations on the x-axis. Now plot the cost function, J(θ) over the number of iterations of gradient descent. **If J(θ) ever increases, then you probably need to decrease α.**
 
-* **Automatic convergence test**. Declare convergence if $J(\theta)$ decreases by less than E in one iteration, where E is some small value such as $10^{−3}$
+* **Automatic convergence test**. **Declare convergence if** $J(\theta)$ **decreases by less than E in one iteration, where E is some small value such as** $10^{-3} = 0.001$.
  . However in practice it's difficult to choose this threshold value.
 
 	<img src="./img/5.png" width=700></img>
     
-* It has been proven that if learning rate $\alpha$ is sufficiently small, then $J(\theta)$ will decrease on every iteration.
+* **It has been proven that if learning rate $\alpha$ is sufficiently small, then $J(\theta)$ will decrease on every iteration.**
 
     <img src="./img/6.png" width=700></img>
     

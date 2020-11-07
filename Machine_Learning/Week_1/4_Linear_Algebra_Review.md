@@ -257,7 +257,7 @@
   0 & 0 & 1
   \end{bmatrix}$
   
-* When multiplying the identity matrix after some matrix (A∗I), the square identity matrix's dimension should match the other matrix's **columns**. When multiplying the identity matrix before some other matrix (I∗A), the square identity matrix's dimension should match the other matrix's **rows**.
+* When multiplying the identity matrix after some matrix (Aâˆ—I), the square identity matrix's dimension should match the other matrix's **columns**. When multiplying the identity matrix before some other matrix (Iâˆ—A), the square identity matrix's dimension should match the other matrix's **rows**.
 
 	```matlab
     % Initialize random matrices A and B 
@@ -321,7 +321,7 @@
 
 * A non square matrix does not have an inverse matrix. We can compute inverses of matrices in octave with the $pinv(A)$ function and in Matlab with the $inv(A)$ function. Matrices that don't have an inverse are singular or degenerate.
 
-* The **transposition** of a matrix is like rotating the matrix 90° in clockwise direction and then reversing it. We can compute transposition of matrices in matlab with the transpose(A) function or A':
+* The **transposition** of a matrix is like rotating the matrix 90Â° in clockwise direction and then reversing it. We can compute transposition of matrices in matlab with the transpose(A) function or A':
 	
 	$A = \begin{bmatrix}
   a & b \\
@@ -336,7 +336,7 @@
   \end{bmatrix}$
 
 * In other words:
-	$ A_{ij} = A^T_{ji}
+	$A_{ij} = A^T_{ji}$
 
 	```matlab
     % Initialize matrix A 
