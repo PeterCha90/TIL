@@ -1,3 +1,7 @@
+<!--page_number:true-->
+<!-- $width: 1300-->
+<!-- $height: 1700-->
+
 ## Basic operations
 
 
@@ -28,7 +32,8 @@
   >> disp(pi)   % show result without 'ans ='
    3.1416
   ~~~
-  
+
+ 
 * #### miscellaneous
   ~~~matlab
   >> b = 'hi';  % string
@@ -39,6 +44,8 @@
   >> disp(sprintf('2 decimals: %0.2f', pi))  % print string with float up to 2 decimal point.
   2 decimals: 3.14
   ~~~
+  
+  
 * #### format
   ~~~matlab
   >> format long
@@ -52,7 +59,7 @@
 
       1.0000    1.1000    1.2000    1.3000    1.4000    1.5000    1.6000    1.7000    1.8000    1.9000    2.0000
   ~~~
- 
+--- 
 ### Matrix
 * #### Matrix 1
   ~~~matlab
@@ -95,7 +102,7 @@
 
      2   2   2
      2   2   2
-     
+     	
   >> w = rand(1,3)    %  random matrix with uniform distribution between 0 and 1.
   w =
 
@@ -109,10 +116,14 @@
   w = -6 + sqrt(10)*(randn(1, 10000));
   hist(w) % histogram of w with 50 bins. result is below.
   ~~~
+
+---
   
   <img src='img/9.png' width=600></img>
 
+
 * Matrix 2
+
 	~~~matlab
     >> eye(4)      % identity matrix
     ans =
@@ -128,6 +139,8 @@
     ~~~
 
 <br>
+
+
 
 ## Moving Data Around 
 
@@ -151,6 +164,9 @@
 
      3   2
 
+---
+* #### Size and Length
+  ~~~matlab
   >> sz
   sz =
 
@@ -160,6 +176,8 @@
   ans =
 
      1   2
+
+
 
   >> size(A, 1) % select the size of dimention
   ans =  3
@@ -199,6 +217,8 @@
   Guideline_of_ML_pipeline.pptx			git_exer
   Hobbies						just
   ~~~
+  
+---
 
 * #### Variable check(who, whos) and remove.
 
@@ -244,7 +264,6 @@
   ~~~matlab
   >> v = [1 2 3 4]
   v =
-
      1   2   3   4
 
   >> save hello.mat    % you can save it as .txt file. It works identically.
@@ -253,7 +272,6 @@
   >> load hello.mat
   >> v
   v =
-
      1   2   3   4
 
   >> who
@@ -261,7 +279,8 @@
 
   v
   ~~~
-  
+
+---
 * #### Selct elements
   ~~~matlab
   >> A = [1 2; 3 4; 5 6]
@@ -317,7 +336,7 @@
      101
      102
   ~~~
-
+---
 * #### Concatenation
 
   ~~~matlab
@@ -368,6 +387,7 @@
   
 <br>
 
+---
 ## Computing on Data
 
 * #### Element-wise operations
@@ -413,6 +433,9 @@
      39   56
      75   96
 
+---
+* #### Element-wise operations
+  ~~~matlab
   >> A
   A =
 
@@ -456,6 +479,9 @@
      4
   ~~~
 
+<br><br><br><br><br><br>
+
+---
 * #### log, exp, abs
 
   ~~~matlab
@@ -487,9 +513,8 @@
      2
      3
   ~~~
-  
-* #### Transpose
 
+* #### Transpose
   ~~~matlab
   >> A
   A =
@@ -517,7 +542,7 @@
      3   4
      5   6
   ~~~
-
+---
 * #### Logical function with matrix
 
   ~~~matlab
@@ -571,7 +596,7 @@
      2
      3    % it means A(1, 1)=8, A(3, 2)=7, A(2, 3)=9
   ~~~
-
+---
 * #### sum, prod, floor, ceil, and max
 
   ~~~matlab
@@ -626,7 +651,11 @@
      8
      7
      9
+---
 
+* #### sum, prod, floor, ceil, and max
+
+  ~~~matlab
   >> max(A)
   ans =
 
@@ -677,6 +706,8 @@
     -0.019444   0.188889  -0.102778
   ~~~
 
+---
+
 * #### Do some several sums with magic function
 
   ~~~matlab
@@ -711,6 +742,11 @@
      369
      369
 
+---
+
+* #### Do some several sums with magic function
+
+  ~~~matlab
   >> eye(9)
   ans =
 
@@ -744,7 +780,9 @@
   >> sum(sum(A .*flipud(eye(9))))
   ans =  369
   ~~~
-  
+
+---
+
 ## Plotting Data
 
 * #### Plot
@@ -764,6 +802,7 @@
 	* Result
 	<img src='img/myPlot.png'></img>
     
+---
 
 * #### Pop up two figures. 
 
@@ -775,7 +814,8 @@
 
 	<img src='img/10.png'></img>
     
-    
+
+
 * #### Subplot
 
   ~~~matlab
@@ -789,7 +829,8 @@
   * Result
   <img src='img/subplot.png' height="300" width="600">
   
-  
+---
+
 * #### Colormap
 
 ~~~matlab
@@ -804,6 +845,7 @@
 <img src='img/11.png' width= 400>
 <img src='img/13.png' width= 400>
 
+---
 
 ## Control Statements: for, while, if statement
 * #### for, while, if statesments
@@ -859,6 +901,10 @@
       512
      1024
 
+---
+* #### for, while, if statesments
+
+  ~~~matlab
   >> i=1;
   >> while true,		
   >     v(i) = 999;
@@ -891,32 +937,38 @@
   >  end;
   The value is two
   ~~~
-  
+---
+
 * #### function as a module
+  if you have a `squareAndCubeThisNumber.m` file like following at your Desktop,  
 
-	* if you have a `squareAndCubeThisNumber.m` file like following at your Desktop,  
-  
-      ~~~m
-      % This is squareAndCubeThisNumber.m file contents.
-      % input: x, outputs: y1, y2
-      function [y1, y2] = squareAndCubeThisNumber(x)
+  ~~~m
+  % This is squareAndCubeThisNumber.m file contents.
+  % input: x, outputs: y1, y2
+  function [y1, y2] = squareAndCubeThisNumber(x)
 
-      y1 = x^2;
-      y2 = x^3;
-      ~~~
-      
-      and you register the Desktop path to the octave environmnet with following command, 
-      ~~~matlab
-      >> addpath('/Users/chayesol/Desktop')
-      ~~~
-      theh, you can see the results like following,
-      ~~~matlab
-      >> [a, b] = squareAndCubeThisNumber(5)
-      a =  25
-      b =  125
-      ~~~
+  y1 = x^2;
+  y2 = x^3;
+  ~~~
 
+  and you register the Desktop path to the octave environmnet with following command, 
+  ~~~matlab
+  >> addpath('/Users/chayesol/Desktop')
+  ~~~
+  theh, you can see the results like following,
+  ~~~matlab
+  >> [a, b] = squareAndCubeThisNumber(5)
+  a =  25
+  b =  125
+  ~~~
+
+<br>
 
 ## Vectorization
 
-* 
+* Rather than writing code yourself to multiply matrices, if you let Octave do it by typing a times b, that would use a very efficient routine to multiply the two matrices. 
+* If you use appropriate vectorization implementations you get much simpler code and much more efficient code.
+
+* Vectorization example.
+
+	<img src='img/14.png' width= 800>
