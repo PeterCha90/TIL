@@ -70,12 +70,12 @@
         -1 \\
         0 
     \end{bmatrix}$
-    $y = 1 \text{if }5+(-1)x_1 + 0x_2 \geq 0$
+    $y = 1 \text{ if }5+(-1)x_1 + 0x_2 \geq 0$
     $5 - x_1 \geq 0$
     $5 \geq x_1$
     
 * n this case, our decision boundary is a straight vertical line placed on the graph where $x_1 = 5$, and everything to the left of that denotes y = 1, while everything to the right denotes y = 0.
 
-* Again, **the input to the sigmoid function $g(z)$ (e.g. $\theta^T X$ doesn't need to be linear, and could be a function that describes a circle (e.g. $z = \theta_0 + \theta_1 x_1^2 +\theta_2 x_2^2$) or any shape to fit our data.**
+* Again, **the input to the sigmoid function $g(z)$ (e.g. $\theta^T X$) doesn't need to be linear, and could be a function that describes a circle (e.g. $z = \theta_0 + \theta_1 x_1^2 +\theta_2 x_2^2$) or any shape to fit our data.**
 
     
