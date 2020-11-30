@@ -34,3 +34,19 @@
 * Where g(z) is the following:
 
 	<img src="img/3.png">
+
+## Examples and Intuitions II
+
+* The$\Theta^{(1)} matrices for AND, NOR, and OR are: 
+
+	$AND:$
+    $Theta^{(1)} =\begin{bmatrix}-30 & 20 & 20\end{bmatrix}$ 
+    
+    $NOR:$
+    $\Theta^{(1)} = \begin{bmatrix}10 & -20 & -20\end{bmatrix}$ 
+    
+    $OR:$
+    $\Theta^{(1)} = \begin{bmatrix}-10 & 20 & 20\end{bmatrix}$
+    
+
+* We can combine these to get the XNOR logical operator (which gives 1 if $x_1$ and $x_2$ are both 0 or both 1).
