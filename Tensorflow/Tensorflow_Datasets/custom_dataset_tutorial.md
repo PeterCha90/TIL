@@ -2,8 +2,6 @@
 
 
 # Custom Tensorflow dataset
-**[Source](https://github.com/tensorflow/datasets/blob/v3.2.1/docs/add_dataset.md)**
-
 
 * Simple guideline to convert local custom data into tensorflow datasets only for personal use. This tutorial is written at following environments:
   
@@ -127,7 +125,38 @@ modifications.
 ### 4. Results
 
 * If everything is done successfully, you can find your dataset name as following result with command, `tfds.list_builders()`:
+    ```
+	tfds.list_builders()
+    ['abstract_reasoning',
+     'aeslc',
+     'aflw2k3d',
+     'ai2_arc',
+     'amazon_us_reviews',
+     ...
+     'moving_mnist',
+     'multi_news',
+     'multi_nli',
+     'multi_nli_mismatch',
+     'my_dataset',      # <-- new created dataset
+     'natural_questions',
+     'newsroom',
+     'nsynth',
+     'nyu_depth_v2',
+	...
+	```
 
-	
+* You can also see the `.tfrecord` files which tfds produce automatically from the source in `~/tensorflow_datasets` directory.  when you execute the `tfds.load()`.
 
-	
+* In this process, maybe some of you can see the **"ResourceExhaustedError" and "Too many open files"** because of limited memory for sharding. If it is your case, you can get through the limit with following codes:
+
+	```python
+    import resource
+
+    low, high = resource.getrlimit(resource.RLIMIT_NOFILE)
+    resource.setrlimit(resource.RLIMIT_NOFILE, (high, high))
+    ```
+
+### Reference
+
+* **[TFDS github](https://github.com/tensorflow/datasets/blob/v3.2.1/docs/add_dataset.md)** 
+* [Issue](https://github.com/tensorflow/datasets/issues/1441)
