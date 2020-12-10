@@ -33,7 +33,7 @@
 
 	$\text{min}_\Theta J(\Theta)$
     
-* That is, we want to minimize our cost function J using an optimal set of parameters in theta. In this section we'll look at the equations we use to compute the partial derivative of J(Θ):
+* That is, we want to minimize our cost function J using an optimal set of parameters in theta. In this section we'll look at the equations we use to compute the partial derivative of J(Î˜):
 
 	$\frac{\partial}{\partial\Theta_{i,j}^{(l)}}J(\Theta)$
     
@@ -68,10 +68,45 @@
 
 	4. Compute $\delta^{(L-1)}, \delta^{(L-2)},\cdots,\delta^{(2)}$ using $\delta^{(l)} = ((\Theta^{(l)})^T \delta^{(l+1)})\ .*\ a^{(l)}\ .*\ (1 - a^{(l)})$
 
-		* The delta values of layer l are calculated by multiplying the delta values in the next layer with the theta matrix of layer l. We then element-wise multiply that with a function called g', or g-prime, which is the derivative of the activation function g evaluated with the input values given by $z^{(l)}$.
+		* The delta values of layer l are calculated by multiplying the delta values in the next layer with the theta matrix of layer l. We then element-wise multiply that with a function called **g', or g-prime, which is the derivative of the activation function g evaluated with the input values given by $z^{(l)}$**.
 
 		* The g-prime derivative terms can also be written out as:
 			
 			$g'(z^{(l)}) = a^{(l)}\cdot* (1-a^{(l)})$
             
 	5. $\Delta^{(l)}_{i, j}:= \Delta^{(l)}_{i, j} + a_j^{(l)}\delta_i^{(l+1)}$ or with vectorization, $\Delta^{(l)} := \Delta^{(l)} + \delta^{(l+1)}(a^{(l)})^T$ Hence we update our new $\Delta$ matrix.
+
+		* $D^{(l)}_{i, j} := \frac{1}{m}(\Delta_{i,j}^{(l)} + \lambda\Theta_{i, j}^{(l)}),$ $\text{if j}$ $\neq$ $\text{0}$
+		* $D^{(l)}_{i, j} := \frac{1}{m}\Delta_{i,j}^{(l)}$ $\text{if j}$ $=$ $\text{0}$
+
+	<br>
+    
+	* The capital-delta matrix D is used as an "accumulator" to add up our values as we go along and eventually compute our partial derivative. Thus we get $\frac \partial {\partial \Theta_{ij}^{(l)}} J(\Theta) = D_{ij}^{(l)}$
+
+
+
+
+## Backpropagation Intuition
+
+* Recall that the cost function for a neural network is:
+	
+    $J(\Theta) = - \frac{1}{m} \displaystyle\sum_{t=1}^m\sum_{k=1}^K \left[ y^{(t)}_k \ \log (h_\Theta (x^{(t)}))_k + (1 - y^{(t)}_k)\ \log (1 - h_\Theta(x^{(t)})_k)\right] + \frac{\lambda}{2m}\sum_{l=1}^{L-1} \sum_{i=1}^{s_l} \sum_{j=1}^{s_l+1} ( \Theta_{j,i}^{(l)})^2$ 
+
+
+* If we consider simple non-multiclass classification (k = 1) and disregard regularization, the cost is computed with:
+
+	$\text{cost}(t) = y^{(t)} \text{log}(h_\Theta(x^{(t)})) + (1- y^{(t)}) \text{log}(1-h_\Theta(x^{(t)}))$
+
+
+* **Intuitively, $\delta_j^{(l)}$ is the "error" for $a^{(l)}_j$  (unit j in layer l).** More formally, **the delta values are actually the derivative of the cost function**:
+
+	$\delta^{(l)}_j = \frac{\partial}{\partial z^{(l)}_j \text{cost}(t)}$
+    
+* Recall that our derivative is the slope of a line tangent to the cost function, so the steeper the slope the more incorrect we are. Let us consider the following neural network below and see how we could calculate some $\delta_j^{(l)}$:
+
+	<img src="img/3.png">
+
+
+* In the image above, to calculate $\delta_2^{(2)}$, we multiply the weights $\Theta_{12}^{(2)}$ and $\Theta_{22}^{(2)}$ by their respective $\delta$ values found to the right of each edge. So we get $\delta_2^{(2)}=\Theta_{12}^{(2)}*\delta_1^{(3)}+\Theta_{22}^{(2)}*\delta_2^{(3)}$.
+
+* To calculate every single possible $\delta_j^{(l)}$, we could start from the right of our diagram. We can think of our edges as our $\Theta_{ij}$. Going from right to left, to calculate the value of $\delta_j^{(l)}$, you can just take the over all sum of each weight times the $\delta$ it is coming from. Hence, another example would be $\delta_2^{(3)}=\Theta_{12}^{(3)}*\delta_1^{(4)}$.
