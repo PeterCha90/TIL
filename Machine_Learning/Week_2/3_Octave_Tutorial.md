@@ -118,7 +118,7 @@
   ~~~
 
 ---
-  
+* 
   <img src='img/9.png' width=600></img>
 
 
@@ -553,7 +553,7 @@
 
   >> val = max(a)
   val =  15
-  >> [val, ind] = max(a)
+  >> [val, ind] = max(a)	% if a is a matrix, use "max(a, [], 2)"
   val =  15
   ind =  2
   >> max(A)     % max row
@@ -605,8 +605,10 @@
 
       1.00000   15.00000    2.00000    0.50000
 
-  >> sum(a)
-  ans =  18.500
+  >> sum(a)		% sum (X, DIM). If DIM is omitted, 
+  			% it defaults to the first non-singleton
+  ans =  18.500		% to add up all elements, use "sum(a(:))"
+  
   >> prod(a)
   ans =  15
   >> floor(a)
