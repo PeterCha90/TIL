@@ -12,11 +12,11 @@
 
 * The `cost function of Logistic regression` is:
 	
-	$\text{min}_\theta \frac{1}{m}\Big[ \displaystyle\sum^{m}_{i=1}y^{(i)}(-\text{log}(h_\theta (x^{(i)})) + (1-y^{(i)})((-\text{log}(1-h_\theta(x^{(i)})))\Big] + \frac{\lambda}{2m}\sum^n_{i=1}\theta^2_j$
+	$\min\limits_{\theta} \frac{1}{m}\Big[ \displaystyle\sum^{m}_{i=1}y^{(i)}(-\text{log}(h_\theta (x^{(i)})) + (1-y^{(i)})((-\text{log}(1-h_\theta(x^{(i)})))\Big] + \frac{\lambda}{2m}\sum^n_{i=1}\theta^2_j$
     
 * Similarly, the **`cost function of SVM`** is like below:
 
-    $\text{min}_\theta C \displaystyle\sum^{m}_{i=1}\Big[y^{(i)}\text{cost}_1(\theta^Tx^{(i)}) + (1-y^{(i)})\text{cost}_0(\theta^Tx^{(i)})\Big] + \frac{1}{2}\sum^n_{i=1}\theta^2_j$
+    $\min\limits_{\theta} C \displaystyle\sum^{m}_{i=1}\Big[y^{(i)}\text{cost}_1(\theta^Tx^{(i)}) + (1-y^{(i)})\text{cost}_0(\theta^Tx^{(i)})\Big] + \frac{1}{2}\sum^n_{i=1}\theta^2_j$
     * $\text{cost}_1(\theta^Tx^{(i)})$ and $\text{cost}_0(\theta^Tx^{(i)})$ mean in case y is 1 or 0 each. 
 	* $\text{cost}_1(\theta^Tx^{(i)})$ and $\text{cost}_0(\theta^Tx^{(i)})$ replace $-\text{log}h_\theta(x^{(i)})$ and $-\text{log}(1-h_\theta(x^{(i)}))$ of logistic each. 
 	* Both cost function in case 0 or 1, look like following,
@@ -48,7 +48,7 @@
 
 * As a result, the cost function becomes like following.
 	
-    $\text{min}_\theta C\times 0 + \dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j \Longrightarrow \text{min}_\theta \dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j$
+    $\min\limits_{\theta} C\times 0 + \dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j \Longrightarrow \min\limits_{\theta} \dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j$
 	s.t. $\theta^T x^{(i)} \geq 1$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\text{ when } y^{(i)} =1$
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$\theta^T x^{(i)} \leq -1$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\text{ when } y^{(i)} = 0$
 <br>
@@ -72,9 +72,9 @@
 
 ### Again, SVM Decision Boundary
 
-* Before we talk about the meaning of $p^{(i)}\cdot ||\theta||$ further, we have to rethink the cost function, $\text{min}_\theta \dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j$. Actually, **SVM's cost function means minimizing the l2-lorm of $\theta$, $||\theta||$** by the following equation. 
+* Before we talk about the meaning of $p^{(i)}\cdot ||\theta||$ further, we have to rethink the cost function, $\min\limits_{\theta} \dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j$. Actually, **SVM's cost function means minimizing the l2-lorm of $\theta$, $||\theta||$** by the following equation. 
 	
-    $$\text{min}_\theta\dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j = \dfrac{1}{2}(\theta^2_1 + \theta^2_2) = \dfrac{1}{2}(\sqrt{\theta_1^2 + \theta_2^2)}^2 \Longrightarrow \text{min}_\theta\dfrac{1}{2}||\theta||^2$$
+    $$\min\limits_{\theta}\dfrac{1}{2}\displaystyle\sum^n_{i=1}\theta^2_j = \dfrac{1}{2}(\theta^2_1 + \theta^2_2) = \dfrac{1}{2}(\sqrt{\theta_1^2 + \theta_2^2)}^2 \Longrightarrow \min\limits_{\theta}\dfrac{1}{2}||\theta||^2$$
     
 * So, back to the main point, with perspective of $p^{(i)}\cdot ||\theta||$, to minimize our cost function, we have maximize $p^{(i)}$, so that minimize $||\theta||$. 
 * Then, to maximize $p^{(i)}$, we have to know what decides the length of $p^{(i)}$.
