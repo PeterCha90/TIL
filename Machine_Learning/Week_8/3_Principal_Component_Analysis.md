@@ -29,7 +29,7 @@
 ## Principal Component Analysis Problem Formulation
 
 * For the problem of dimensionality reduction, by far the most popular, by far the most commonly used algorithm is something called principle components analysis, or PCA.'
-* What PCA does is **to find (a) direction(s)(vector(s)) that minimize the square distance** between each point and the location of where it gets projected.
+* **PCA chooses a direction $u^{(1)}$ (or $k$ directions $u^{(1)}, ..., u^{(k)}$ onto which to project the data so as to minimize the (squared) projection error.**
 
 	<img width=600 src="img/16.png">
     
@@ -80,4 +80,41 @@
     * So, $x_{\text{approx}}^{(i)}$'s size is $(n\times 1)$. $\approx x^{(i)}$. $z \in  \mathbb{R} \Rightarrow x \in  \ \mathbb{R}^2$
 
 
-### Choosing the Number of Principal Components($k)$
+### Choosing $k$ (number of principal components)
+
+
+* **Average squared projection error**: &nbsp;&nbsp; $\dfrac{1}{m} \displaystyle\sum^m_{i=1} || x^{(i)}- x_{\text{approx}}^{(i)}||^2$
+    
+* **Total variation** in the data: &nbsp;&nbsp; $\dfrac{1}{m} \displaystyle\sum^m_{i=1}||x^{(i)}||^2$
+    
+    
+* Typically, choose $k$ to be smallest value so that 
+
+	$\dfrac{\frac{1}{m}\sum^m_{i=1}||x^{(i)}- x_{\text{approx}}^{(i)}||^2}{\frac{1}{m}\sum^m_{i=1}||x^{(i)}||^2} \leq 0.01$ - "99% of variance is retained."
+    
+    Sometimes, use 0.05 instead of 0.01.
+
+* This computation can be done using output $\text{S}$ of function `svd(Sigma)` in Octave like following.
+
+	<img width="600" src="img/20.png">
+    
+    
+    
+## Advice for Applying PCA
+
+1. Supervised learning speedup
+
+	* Here's how you can use PCA to speed up a learning algorithm
+
+	<img width="600" src="img/21.png">
+    
+2. Bad usage of PCA 1
+	
+    * It is not recommended using PCA to prevent overfitting. Use regularization instead.
+
+	<img width="600" src="img/22.png">
+    
+3. Bad usage of PCA 2
+	* Before implementing PCA, first try running whatever you want to do with the original/raw data.
+	
+	<img width="600" src="img/23.png">
