@@ -202,3 +202,112 @@
     ```
     
     
+## 8.6 Stateful RNNs
+* If we want RNNs to learn longer patterns, we have two options.
+	1. To use larger windows. 
+		* Howerver, simple RNNs like the ones we used aren't capable of learning very long-term patterns, they'll at most learn a few dozen timestamps.
+    2. Stateful RNNs
+		*  So far, we have learned stateless RNN. This means following picture which is we train RNN with batches of windows sampled anywhere within the time series.
+		*  It drops the final result at each training step, and reset state 0 for another training.
+
+    	<img width="600px" src="img/6.png">
+
+		* However, stateful RNN doesn't drop the final step, it take over it as a start state for the next training. So, obviously batches are not selected randomly.
+		<img width="600px" src="img/7.png">
+		
+		* Unfortunately, since consecutive training batches are very correlated, back-propagation may not work.
+		* So, stateful RNNs are much less used than a stateless RNNs, but on some tasks, they can lead to better performance. 
+
+
+* Codes
+	* Dataset's **`shift=window_size`** and **no shuffle.**
+	```python
+    def sequential_window_dataset(series, window_size):
+      series = tf.expand_dims(series, axis=-1)
+      ds = tf.data.Dataset.from_tensor_slices(series)
+      ds = ds.window(window_size + 1, shift=window_size, drop_remainder=True)
+      ds = ds.flat_map(lambda window: window.batch(window_size + 1))
+      ds = ds.map(lambda window: (window[:-1], window[1:]))
+      return ds.batch(1).prefetch(1)
+    ```
+    
+    * Don's forget reset the state at every beginning of the epoch.
+
+	```python
+    class ResetStatesCallback(keras.callbacks.Callback):
+        def on_epoch_begin(self, epoch, logs):
+            self.model.reset_states()
+    ```
+	* Model now has **`stateful=True`.**
+	```python
+    model = keras.models.Sequential([
+      keras.layers.SimpleRNN(100, return_sequences=True, stateful=True,
+                             batch_input_shape=[1, None, 1]),
+      keras.layers.SimpleRNN(100, return_sequences=True, stateful=True),
+      keras.layers.Dense(1),
+      keras.layers.Lambda(lambda x: x * 200.0)
+    ])
+    ```
+    
+## 8.7. LSTM Cells
+
+* Let's look at another technique to make the RNN learn long-term patterns.
+* LSTM - Long Short Time Memory - can detect patterns of over 100 time steps long, but it will still struggle with patterns of several hundreds time steps or more.
+
+	<img width="600px" src="img/8.png">
+
+* LSTM cell을 간단히 설명하자면, 기본적으로 전체 정보를 쭉 가지고 전달을 하는 Ct−1,Ct를 이어주는 Cell state가 있습니다. 그리고 이전 과거로부터 받은 정보와 지금 들어온 인풋 중에 어떤 정보를 얼마나 반영시킬지(=얼마를 잊어버릴지) 정하는 Forget gate. Input으로 들어온 정보를 얼마나 Cell state 반영할 지에 대해 결정하는 Input gate. 그리고 마지막으로 그렇게 형성된 Cell state 정보와 현재 input의 정보를 보았을 때 적절한 output을 결정하게 되는 Output gate. 이렇게 크게 세 부분으로 이루어져 있습니다.
+
+    #### Code
+
+    ```python
+    model = keras.models.Sequential([
+      keras.layers.LSTM(100, return_sequences=True, stateful=True,
+                        batch_input_shape=[1, None, 1]),
+      keras.layers.LSTM(100, return_sequences=True, stateful=True),
+      keras.layers.Dense(1),
+      keras.layers.Lambda(lambda x: x * 200.0)
+    ])
+    ```
+## 8.8. CNNs
+#### Hyperparameters
+* 'causal' padding:
+	* it's essential to ensure that the model doesn't cheat and use future values to forecast future values. So causal padding is usually a good choice.
+
+		<img src="img/9.png">
+	
+* **The number of filter** of Conv1D can decide the **under or overfitting** of the model. 
+
+#### Preprocessing With 1D-Convolutional Layers
+
+* Conv1D + LSTM model.
+  ```python
+  model = keras.models.Sequential([
+    keras.layers.Conv1D(filters=32, kernel_size=5,
+                        strides=1, padding="causal",
+                        activation="relu",
+                        input_shape=[None, 1]),
+    keras.layers.LSTM(32, return_sequences=True),
+    keras.layers.LSTM(32, return_sequences=True),
+    keras.layers.Dense(1),
+    keras.layers.Lambda(lambda x: x * 200)
+  ])
+  ```
+  
+ #### Fully Convolutional Forecasting(WaveNet)
+ 
+* Fully contructed with Conv1D layers. This one is really good.
+  ```python
+  model = keras.models.Sequential()
+  model.add(keras.layers.InputLayer(input_shape=[None, 1]))
+  for dilation_rate in (1, 2, 4, 8, 16, 32):
+      model.add(
+        keras.layers.Conv1D(filters=32,
+                            kernel_size=2,
+                            strides=1,
+                            dilation_rate=dilation_rate,
+                            padding="causal",
+                            activation="relu")
+      )
+  model.add(keras.layers.Conv1D(filters=1, kernel_size=1))
+  ```
