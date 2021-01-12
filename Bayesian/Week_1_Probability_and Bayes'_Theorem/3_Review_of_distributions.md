@@ -21,9 +21,9 @@
 
 * 랜덤한 변수인 $X$가 베르누이 분포를 성공할 확률 $p$ 를 가지고 따르고 있다고 하면 아래와 같이 표현할 수 있다. 
 
-$$X \thicksim B(p)$$
+$$X \sim B(p)$$
 
-* $\thicksim$표시는 ~와 같이, ~의 분포를 따라 $X$가 분포되어 있다는 뜻이다. 
+* $\sim$표시는 ~와 같이, ~의 분포를 따라 $X$가 분포되어 있다는 뜻이다. 
 * 성공 = 1, 실패 = 0 라고 봤을 때, 아래와 같이 표현 할 수 있다. 
 
 $$P(X=1) = p$$
@@ -64,7 +64,7 @@ $$Var(X) = p(1-p)$$
 ---
 ## 3.2. Binomial Distribution
 * 우리가 **베르누이 분포에서 $N$번의 시도를 한다고 하면 binomial하게, 이항분포로 일반화** 할 수 있다. 
-$$X \thicksim Bin(n, p)$$
+$$X \sim Bin(n, p)$$
 $$P(X=x|p)=f(x|p) = {n \choose x}p^x(1-p)^{n-x}$$
 
 * 여기서 ${n \choose x} = \frac{n!}{x!(n-x)!} \text{ for }x\in \{0, 1,...n\}$
@@ -90,7 +90,7 @@ $$Var(X) = np(1-p)$$
 * 핵심 아이디어는 **우리가 PDF를 어떠한 범위 안에서 적분을 취한다고 했을 때, 그 랜덤변수가 그 범위 안에 존재할 확률을 줄 수 있다**는 점입니다. 
 * 균등분포(Uniform distribution)로 예를 들어볼까요. 
 
-$$X \thicksim U[0,1]$$
+$$X \sim U[0,1]$$
 
 * 이 뜻은, 어떠한 값이든 0부터 1사이에 있다면, 그 값들은 **equally likely하다(같은 확률을 가진다)** 는 것입니다. 이 경우는 수식으로 아래와 같이 표현할 수 있습니다.
 
@@ -134,14 +134,14 @@ $$E[X + Y] = E[X] + E[Y]$$
 * 만약 $X$와 $Y$가 독립이라면($\perp$기호), 아래와 같이 표현 할 수도 있습니다.
 $$\text{if }X \perp Y,\text{then }E[XY] = E[X]E[Y]$$
 
-* $X \thicksim U[\theta_1, \theta_2]$인 경우는 다음과 같이 Density function(밀도함수)을 일반화 할 수 있습니다.
+* $X \sim U[\theta_1, \theta_2]$인 경우는 다음과 같이 Density function(밀도함수)을 일반화 할 수 있습니다.
 
 $$f(x|\theta_1, \theta_2) = \frac{1}{\theta_2 - \theta_1} I_{\{\theta_1 \le x \le \theta_2 \}}$$
 
 <br><br>
 ### 연습문제 
 
-* If $X \thicksim \text{Uniform}(0, 1)$, then the PDF of $X$ is $f(x) = I_{\{0 \le x \le 1\}}(x)$. Which of the following expressions could we use to calculate $E(X^2)$?
+* If $X \sim \text{Uniform}(0, 1)$, then the PDF of $X$ is $f(x) = I_{\{0 \le x \le 1\}}(x)$. Which of the following expressions could we use to calculate $E(X^2)$?
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. $\int_{-\infty}^\infty(I_{0 \le x \le 1}(x))^2dx$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. $\int_0^1x^2dx$
 
@@ -155,7 +155,7 @@ $$f(x|\theta_1, \theta_2) = \frac{1}{\theta_2 - \theta_1} I_{\{\theta_1 \le x \l
 ## 3.4. Exponential Distribution
 
 * 그 다음 배울 연속확률분포의 예시는 **지수분포**다. 지수분포는 아래와 같이 rate parameter $\lambda$로 표현한다. **특정한 비율($\lambda$)** 을 가지고 사건이 일어나는 경우, **지수분포는 사건과 사건 사이에 'Waiting time'을 의미**한다. 
-$$X \thicksim Exp(\lambda)$$
+$$X \sim Exp(\lambda)$$
 
 
 
@@ -174,7 +174,7 @@ $$E[X] = \frac{1}{\lambda},\text{  } Var(X) = \frac{1}{\lambda^2}$$
 ## 3.5. Normal Distribution
 * 정규분포는 Gaussian 분포라고 부른다. 
 
-$$X \thicksim N(\mu, \sigma^2)$$
+$$X \sim N(\mu, \sigma^2)$$
 * 으로 표현하고, 밀도함수는 
 
 $$f(x|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}exp\{-\frac{1}{2\sigma^2}(x-\mu)^2 \}$$
@@ -258,13 +258,13 @@ $$a^2Var(X) + b^2Var(Y) + 0 = a^2\sigma^2_X + b^2\sigma^2_Y$$
 * **기하분포**란, **첫 번째로 성공하기 까지의 시도 횟수**를 말한다. 베르누이 이벤트에서 첫 번째 성공이 관찰될 때까지의 확률분포를 말한다. 
 * 첫 번째 성공을 위해서는 무조건 최소 첫 시도를 해야하기 때문에, 양수인 1부터 value는 시작한다. 
 
-$$X \thicksim Geo(p)$$
+$$X \sim Geo(p)$$
 $$P(X =x|p) = p(1-p)^{x-1} \text{ for x = 1,2,...}$$
 $$E[X] = \frac{1}{p}$$
 * 만약 성공할 확률이 $p$라면 첫 성공까지의 기대되는 시도횟수는 $1/p$가 된다. 
 
 	### 연습문제
-    공평한 동전 하나를 4번 던져서 한 번도 앞면을 보지 못할 확률은? 이 문제는 $X \thicksim Geo(\frac{1}{2})$일 때, $P(X>4)$인 경우를 말하는 것이다. 
+    공평한 동전 하나를 4번 던져서 한 번도 앞면을 보지 못할 확률은? 이 문제는 $X \sim Geo(\frac{1}{2})$일 때, $P(X>4)$인 경우를 말하는 것이다. 
     $$P(X>4)$$
     $$= 1-P(X=1) -P(X=2) -P(X=3)-P(X=4) $$
     $$= 1- (1/2)-(1/2)(1/2)-(1/2)(1/2)^2-(1/2)(1/2)^3 $$
@@ -290,7 +290,7 @@ $$f(x_i, ..., x_k| p_1,...,p_k) = \frac{n!}{x_1!\cdots x_k!}p_1^{x_1 }\cdots p_k
 
 * 포아송 분포는 **계수(count)하기 위해서 사용된다.** 그리고 다양한 상황들에서 일어난다. 매개변수인 $\lambda > 0$는, 우리가 **횟수를 세고 있는 사건이 관찰되기로 기대하는 비율**을 뜻한다.
 
-$$X \thicksim \text{Pois}(\lambda)$$
+$$X \sim \text{Pois}(\lambda)$$
 $$P(X=x|\lambda) = \frac{\lambda^x\text{exp}(-\lambda)}{x!} \text{ for }x = 0,1,2,...$$
 $$E[X]= \lambda, \text{ } Var[X] = \lambda$$
 
@@ -299,7 +299,7 @@ $$E[X]= \lambda, \text{ } Var[X] = \lambda$$
 	### 연습문제 
     미국 서부에는 주요한 지진이 포아송 과정에 따라 일주일에 두번이라는 비율로 나타난다. 그렇다면 다음 2주 안에, 지진이 최소 3번 이상 나타날 확률은?
 
-	**여기서 $\lambda$를 정하는 방법은, 2주라는 시간 안에 rate는 $2\times2$로, 4가 되기 때문에, $X \thicksim \text{Pois}(4)$라고 생각해야한다는 것**이다.($\lambda = 4$).
+	**여기서 $\lambda$를 정하는 방법은, 2주라는 시간 안에 rate는 $2\times2$로, 4가 되기 때문에, $X \sim \text{Pois}(4)$라고 생각해야한다는 것**이다.($\lambda = 4$).
     그 뒤에 문제를 푸는 방식은 at least 3라고 했기 때문에, 구하고자 하는 가능성은 $P(X \ge 3) = 1-P(X \le 2)$. 즉,
     $$1- P(X=0) - P(X=1) - P(X =2)$$
     $$1 - e^{-4}- 4e^{-4}-\frac{4^2e^{-4}}{2}= 1- 13e^{-4} = 0.762$$
@@ -313,7 +313,7 @@ $$E[X]= \lambda, \text{ } Var[X] = \lambda$$
 
 * 지수분포의 밀도함수식, 기대값, 분산은 아래와 같다.
 
-$$X \thicksim \text{Exp}(\lambda)$$
+$$X \sim \text{Exp}(\lambda)$$
 $$f(x|\lambda) = \lambda e^{-\lambda x} \text{ for } x \ge 0$$
 
 $$E[X] = \frac{1}{\lambda},\text{  } Var(X) = \frac{1}{\lambda^2}$$
@@ -329,7 +329,7 @@ $$E[X] = \frac{1}{\lambda},\text{  } Var(X) = \frac{1}{\lambda^2}$$
 ### 5.2. Gamma
 * 만약에 $X_1, X_2, \cdots X_n$들이 독립이고, $\text{Exp}(\lambda)$로 균일하게(identically)분포하고 있는 연속적인 이벤트들 사이의 **대기시간**들이라고 한다면. (조건 엄청 복잡하네;;)
 * 그렇다면 **모든 $n$개의 이벤트가 일어날 총 대기시간** $Y= \sum_{i=1}^n X_i$는, **shape parameter가 $\alpha=n$이고, rate parameter가 $\beta=\lambda$** 인 감마분포를 따른다. 
-$$Y \thicksim \text{Gamma}(\alpha, \beta)$$
+$$Y \sim \text{Gamma}(\alpha, \beta)$$
 $$f(y|\alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}y^{\alpha-1}e^{-\beta y}I_{\{y \ge0\}}(y)$$
 $$E[Y] = \frac{\alpha}{\beta} ,  \text{ } Var[Y]=\frac{\alpha}{\beta^2}$$ 
 * $\alpha$와 $\beta$는 둘 다 $>0$이어야 한다.
@@ -346,7 +346,7 @@ $$E[Y] = \frac{\alpha}{\beta} ,  \text{ } Var[Y]=\frac{\alpha}{\beta^2}$$
 
 * **균일분포**는 구간 내에 모든 랜덤한 변수들이 모두 같은 확률을 가질 때 사용된다. 
 
-$$X \thicksim \text{Uniform}(a, b)$$
+$$X \sim \text{Uniform}(a, b)$$
 $$f(x|a, b) = \frac{1}{b-a}I_{\{a \le x \le b\}}(x)$$
 $$E[X] = \frac{a+b}{2}, \text{ } Var[X] = \frac{(b-a)^2}{12}$$
 * 표준 균일 분포는 $a=0$ and $b =1$이다. 
@@ -358,7 +358,7 @@ $$E[X] = \frac{a+b}{2}, \text{ } Var[X] = \frac{(b-a)^2}{12}$$
 * 베타분포는 **랜덤 변수가 0에서 1사이에서 결정될 때 사용**된다. 
 * 이런 이유로, 혹은 또 다른 수업에서 살펴볼 이유로, **베타 분포는 확률을 모델링할 때 보통 사용된다**. 
 
-$$X \thicksim Beta(\alpha, \beta)$$
+$$X \sim Beta(\alpha, \beta)$$
 
 $$f(x|\alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1}I_{\{0<x<1\}}(x)$$
 $$E[X] = \frac{\alpha}{\alpha + \beta}, \text{ } Var[X] = \frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta +1)}$$
@@ -375,7 +375,7 @@ $$E[X] = \frac{\alpha}{\alpha + \beta}, \text{ } Var[X] = \frac{\alpha\beta}{(\a
 * 정규분포는 **랜덤한 변수들의 합과 평균 분포들을 한계지을 때 사용**된다. 이것은 **중심극한정리** 때문인데, Section 6에서 소개될 것이다. 이 성질 덕분에 정규분포는 **에러값, 혹은 회귀모델에서 설명되지 않는 각각의 관찰값들의 변형들을 모델링하는 용도로 자주 쓰인다.** 
 * 정규분포의 기준은 
 
-$$Z \thicksim N(0, 1)$$
+$$Z \sim N(0, 1)$$
 
 $$f(z) = \frac{1}{\sqrt{2\pi}}\text{exp}\Big(-\frac{z^2}{2}\Big)$$
 $$E[Z] =0, \text{ } Var[Z]=1$$
@@ -384,7 +384,7 @@ $$E[Z] =0, \text{ } Var[Z]=1$$
 $Var(X) = Var(\sigma Z + \mu) = \sigma^2 Var(z) + 0 = \sigma^2 \cdot 1 = \sigma^2$가 된다.
 그러니까, X는 평균 $\mu$와 분산 $\sigma^2$를 따르는, 
 
-   $$X \thicksim N(\mu, \sigma^2)$$
+   $$X \sim N(\mu, \sigma^2)$$
    $$f(x|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}}\text{exp}\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big)$$
    이 된다는 말씀!
 * $\mu$를 기준으로 대칭을 이루는 종모양 곡선을 정규분포는 가지고 있다.
@@ -394,29 +394,29 @@ $Var(X) = Var(\sigma Z + \mu) = \sigma^2 Var(z) + 0 = \sigma^2 \cdot 1 = \sigma^
 ### 정규분포 성질
 * 정규분포는 여러가지 바람직한(?) 성질들을 가지고 있다. 그 중에 하나는, 만약,
 
-	$X_1 \thicksim N(\mu_1, \sigma_1^2)$이고, $X_2 \thicksim N(\mu_2, \sigma_2^2)$일 때 **독립이라면**,
-    $X_1 + X_2 \thicksim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$가 말이된다. 
+	$X_1 \sim N(\mu_1, \sigma_1^2)$이고, $X_2 \sim N(\mu_2, \sigma_2^2)$일 때 **독립이라면**,
+    $X_1 + X_2 \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$가 말이된다. 
 
 * 결론적으로, 우리는 $n$개의 **독립적이면서 동일하게 분포되어 있는( iid - independent and identically distributed)** 정규 랜덤 변수들의 평균을 아래와 같이 취할 수 있다.
 
 
 	$$\bar X = \frac{1}{n}\sum_{i=1}^n X_i$$
 
-	$\text{where }X_i \thicksim^{iid} N(\mu, \sigma^2) \text{ for } i = 1,2,\cdots, n$, then
+	$\text{where }X_i \sim^{iid} N(\mu, \sigma^2) \text{ for } i = 1,2,\cdots, n$, then
 
-$$\bar X \thicksim N\Big ( \mu, \frac{\sigma^2}{n}\Big) $$
+$$\bar X \sim N\Big ( \mu, \frac{\sigma^2}{n}\Big) $$
 
 ---
 
 ### 5.6 t
-* 만약 우리가 정규화된 데이터를 가지고 있다고 하면, 우리는 위에서 봤던, $\bar X \thicksim N\Big(\mu, \frac{\sigma^2}{n}\Big)$를 사용해서 평균값인 $\mu$를 가늠해볼 수 있다. 정규분포에서 봤던 변환식을 역으로 계산해보면 우리는 아래와 같은 식을 구할 수 있다.
+* 만약 우리가 정규화된 데이터를 가지고 있다고 하면, 우리는 위에서 봤던, $\bar X \sim N\Big(\mu, \frac{\sigma^2}{n}\Big)$를 사용해서 평균값인 $\mu$를 가늠해볼 수 있다. 정규분포에서 봤던 변환식을 역으로 계산해보면 우리는 아래와 같은 식을 구할 수 있다.
 
-$$\frac{\bar X - \mu}{\sigma/\sqrt n} \thicksim N(0,1)$$
+$$\frac{\bar X - \mu}{\sigma/\sqrt n} \sim N(0,1)$$
 
 * 근데 우리는 아직 $\sigma$ 값을 모른다. 만약 우리가 이 값을 데이터에서 구한다면 우리는 이 값을 **표본 표준 편차인 $S = \sqrt{\sum_i(X_i - \bar X)^2 / (n -1)}$로 대체**할 수 있다. 
 * 이렇게 해버리면 더이상 표준 정규 분포가 아니게 된다. 다만, **자유도(degrees of freedom) $\nu = n-1$를 따르는 표준 $t$ 분포가 된 것**이다. 
 
-$$Y \thicksim t_\nu$$
+$$Y \sim t_\nu$$
 $$f(y) = \frac{\Gamma(\frac{\nu +1}{2})}{\Gamma(\frac{\nu}{2})\sqrt{\nu \pi}}\Big(1 + \frac{y^2}{\nu}\Big)^{-(\frac{\nu+1}{2})}$$
 
 $$E[Y] = 0\text{ if } \nu >1$$
