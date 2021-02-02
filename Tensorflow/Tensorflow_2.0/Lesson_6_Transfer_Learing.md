@@ -1,3 +1,7 @@
+<!--page_number:true-->
+<!-- $width: 1059-->
+<!-- $height: 1500-->
+
 # Lesson 6. Transfer Learing
 
 ### 6.1. tensorflow_hub
@@ -15,8 +19,9 @@
 
   ```python
   URL = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
-  feature_extractor = hub**.KerasLayer(**URL,
-                                                                       input_shape=(224, 224, 3))
+  feature_extractor = hub.KerasLayer(
+  			URL,
+  			input_shape=(224, 224, 3))
   ```
 
 * **Freeze the parameters**
@@ -36,11 +41,15 @@
   model.summary()
   ```
 
+
 ### 6.2. Honey tips
 
 **1. split a tfds**
 
 - When the dataset consists of only training set.
+
+---
+
 - If split the dataset, tfds **returns a tuple** with meta info. There are two ways.
 
   ```python
@@ -52,15 +61,14 @@
       with_info=True,
       as_supervised=True
   )
-	```
-
+  ```
 
 **2. Inside tfds meta data**
 
 - **Get number of classes**
 
   ```python
-  num_classes = meta**.features['label'].num_classess**
+  num_classes = meta.features['label'].num_classess
   ```
 
 - **Get label names**
@@ -75,7 +83,10 @@
 - `.shuffle()`: [more information](https://www.tensorflow.org/api_docs/python/tf/data/Dataset#shuffle)
 
   ```python
-  train_batches  = train_examples.cache().shuffle(num_examples//4).map(format_image).batch(BATCH_SIZE).prefetch(1)
+  train_batches  = 
+     train_examples.cache().shuffle(num_examples//4)
+                   .map(format_image).batch(BATCH_SIZE)
+                   .prefetch(1)
   ```
 
 **4. Resize image**

@@ -1,3 +1,8 @@
+
+<!--page_number:true-->
+<!-- $width: 1059-->
+<!-- $height: 1500-->
+
 # Lesson 5. Going Further with CNNs
 
 ### 5.1. Overfitting
@@ -25,6 +30,7 @@
 
     * It seems it has no difference with data augmentation, but it can make model more robust to natural perturbations it could encounter in the wild.
 
+---
 5. **`L1 & L2 Regularization`**
 
 	* Adding a penalty to the loss function
@@ -37,7 +43,7 @@
 
     * This also has the advantage of making the model **lighter**, **train faster** and **run** **faster**.
 
-
+---
 ### 5.2. ImageDataGenerator 
 * #### Import
 
@@ -47,20 +53,23 @@
   # width_shift, height_shift_range, zoom_range_range, 
   # brightness_range, fill_mode and so on..
   # + validation_split
-  image_gen = ImageDataGenerator(rescale=1/255, 
-                                 horizontal_flip=True,
-                                 rotation_range=45,
-                                 zoom_range=0.5,
-                                 width_shift_range=0.15,
-                                 height_shift_ragne=0.15)
+  image_gen = ImageDataGenerator(
+  		 rescale=1/255, 
+                   horizontal_flip=True,
+                   rotation_range=45,
+                   zoom_range=0.5,
+                   width_shift_range=0.15,
+                   height_shift_ragne=0.15)
 
   # .flow_from_directory Options:
   # batch_size, directory, shuffle, target_size, 
   # color_mode, class_mode, seed and so on... 
-  train_data_gen = image_gen.flow_from_directory(batch_size=batch_size,
-                                                directory=train_dir_path,
-                                                shuffle=True,
-                                                target_size=(IMG_SHAPE, IMG_SHAPE))
+  train_data_gen = 
+  image_gen.flow_from_directory(
+  	batch_size=batch_size, 
+	      directory=train_dir_path, 
+	      shuffle=True,
+	      target_size=(IMG_SHAPE, IMG_SHAPE))
 
   train_data_gen[0] # a step of epoch. A tuple of images and labels
   train_data_gen[0][0] # images of a whole batch. 
@@ -75,10 +84,12 @@
     # actually, model.fit also works.
     history = model.fit_generator(
         train_data_gen,
-        steps_per_epoch=int(np.ceil(train_data_gen.n / float(BATCH_SIZE))),
+        steps_per_epoch=int(
+        	np.ceil(train_data_gen.n / float(BATCH_SIZE))),
         epochs=EPOCHS,
         validation_data=val_data_gen,
-        validation_steps=int(np.ceil(val_data_gen.n / float(BATCH_SIZE)))
+        validation_steps=int(
+        	np.ceil(val_data_gen.n / float(BATCH_SIZE)))
     )
     ```
     

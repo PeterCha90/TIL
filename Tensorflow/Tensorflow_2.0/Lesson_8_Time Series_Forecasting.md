@@ -1,3 +1,7 @@
+<!--page_number:true-->
+<!-- $width: 1059-->
+<!-- $height: 1500-->
+
 # Lesson 8. Time Series Forecasting
 
 - **`Time Series`** are everywhere. It's an ordered sequence of values usually equally spaced over time.
@@ -11,7 +15,7 @@
 
     > "When you're doing time series forecasting or analysis, it's often good to untangle all of these components from your time series and possibly study them separately. You can isolate the trend, the seasonal pattern, and the noise." - AurÄ‚Å lien GÄ‚Å ron
 
-  
+---
 ## **8.2. Forecasting**  
 
 ### Naive Forecasting
@@ -31,20 +35,24 @@
   - Then **you should train your model one last time on the full time series including the test set, before you deploy your model to production.**
   - This is different from the usual machine learning best practices where we never train on the test set **but it's necessary for time series because the most recent period is usually the one that contains the most useful information to predict the future.**
 
-  ### Roll-Forward Partitioning
+---
+
+### Roll-Forward Partitioning
 
   - Fixed partitioning is simple and intuitive, but there's another way.
   - We start with a short training period and we gradually increase it, by one day at a time or one week at a time.
   - At each iteration, we train the model on the training period and we use it to forecast the following day or the following week in the validation period. This is called **roll forward partitioning.**
   - The **drawback is that it will require much more training time**, but the **benefit is that it will more closely mimic the production conditions** since you will generally want to retrain your model regularity as you get new data in production.
 
-  ### Moving Average
+### Moving Average
 
   - This is just the **Mean of the past N values.** This nicely eliminates a lot of the noise but it does not anticipate trend or seasonality. So it ends up performing worse than naive forecasting.
   - **One way to fix this is to remove the trend and seasonality from the time series.** A simple technique is to use **differencing**.
   - Instead of studying the time series itself, we study the difference between the value at time $t$ and the value one year earlier at time $t$ - 365. Then we can get differenced time series which has no trend and no seasonality.
   - We can then **use a moving average to forecast time series**. **Then we need to add back the value at time t minus 365.** But, the noise which the origin data had can affect the predicted value also at this time. **So we need to also remove the past noise using a moving average again**! Then it can give you proper answer.
 
+---
+* code
     ```python
     def moving_average_forecast(series, window_size):
       """Forecasts the mean of the last few values.
@@ -65,6 +73,8 @@
     ```
 
   - Simple approaches may work just fine.
+
+
 ##  **8.3. Metrics** 
 
 * If large errors are potentially dangerous and they cost you much more than smaller errors, then you may prefer the MSE. But if your gain or your loss is just proportional to the size of the error, then the MAE may be better. 
@@ -77,6 +87,9 @@
   ### MAE
 
   - Mean of the Absolute values of the Errors. It does not penalize large errors as much as the MSE.
+
+
+---
 
   ### MAPE
 
@@ -114,7 +127,7 @@
         return ds.batch(batch_size).prefetch(1)
     ```
     
-    
+    ---
 ## 8.5. Recurrent Layer 
 
 ### Seq2Vec
@@ -134,13 +147,16 @@
     This means,
     
     <img width=500px src="img/3.png">
-    
+
+
  * If you set `return_sequences=True`, then it produce the output at each time step.
  * Default activation function is `tanh`. The reason not using Relu activation is RNNs have a tendency to have unstable gradients, <u>so if you use non-saturating activation function like Relu, then it can grow arbitrarily large. So by using the hyperbolic tangent, it is a bit more stable since it will saturate.</u> 
+---
 
 * But, it might still get vanishing gradients, so training maybe super slow. The RNN is like a very deep net.The more time steps there are, the deeper it is.
 
 	<img width=500px src="img/4.png">
+
 
 
 ### Seq2Seq
@@ -160,16 +176,17 @@
         keras.layers.Lambda(lambda x: x * 200)
   ])
     ```
-    Training example:
+ ---
+ * Training example:
     ```python
     optimizer = keras.optimizers.SGD(lr=1.5e-6, momentum=0.9)
-  model.compile(loss=keras.losses.Huber(),
-                  optimizer=optimizer,
-                  metrics=["mae"])
-  early_stopping = keras.callbacks.EarlyStopping(patience=50)
-  model_checkpoint = keras.callbacks.ModelCheckpoint(
-      "my_checkpoint", save_best_only=True)
-  model.fit(train_set, epochs=500,
+    model.compile(loss=keras.losses.Huber(),
+                    optimizer=optimizer,
+                    metrics=["mae"])
+    early_stopping = keras.callbacks.EarlyStopping(patience=50)
+    model_checkpoint = keras.callbacks.ModelCheckpoint(
+        "my_checkpoint", save_best_only=True)
+    model.fit(train_set, epochs=500,
               validation_data=valid_set,
               callbacks=[early_stopping, model_checkpoint])
     ```
@@ -200,7 +217,7 @@
         dataset = dataset.batch(batch_size).prefetch(1)
         return dataset
     ```
-    
+    ---   
     
 ## 8.6 Stateful RNNs
 * If we want RNNs to learn longer patterns, we have two options.
@@ -212,43 +229,52 @@
 
     	<img width="600px" src="img/6.png">
 
-		* However, stateful RNN doesn't drop the final step, it take over it as a start state for the next training. So, obviously batches are not selected randomly.
-		<img width="600px" src="img/7.png">
-		
-		* Unfortunately, since consecutive training batches are very correlated, back-propagation may not work.
-		* So, stateful RNNs are much less used than a stateless RNNs, but on some tasks, they can lead to better performance. 
+---
+
+  * However, stateful RNN doesn't drop the final step, it take over it as a start state for the next training. So, obviously batches are not selected randomly.
+  <img width="600px" src="img/7.png">
+
+  * Unfortunately, since consecutive training batches are very correlated, back-propagation may not work.
+  * So, stateful RNNs are much less used than a stateless RNNs, but on some tasks, they can lead to better performance. 
 
 
 * Codes
-	* Dataset's **`shift=window_size`** and **no shuffle.**
-	```python
-    def sequential_window_dataset(series, window_size):
-      series = tf.expand_dims(series, axis=-1)
-      ds = tf.data.Dataset.from_tensor_slices(series)
-      ds = ds.window(window_size + 1, shift=window_size, drop_remainder=True)
-      ds = ds.flat_map(lambda window: window.batch(window_size + 1))
-      ds = ds.map(lambda window: (window[:-1], window[1:]))
-      return ds.batch(1).prefetch(1)
-    ```
-    
-    * Don's forget reset the state at every beginning of the epoch.
+* Dataset's **`shift=window_size`** and **no shuffle.**
+  ```python
+  def sequential_window_dataset(series, window_size):
+    series = tf.expand_dims(series, axis=-1)
+    ds = tf.data.Dataset.from_tensor_slices(series)
+    ds = ds.window(window_size + 1, shift=window_size, drop_remainder=True)
+    ds = ds.flat_map(lambda window: window.batch(window_size + 1))
+    ds = ds.map(lambda window: (window[:-1], window[1:]))
+    return ds.batch(1).prefetch(1)
+  ```
+
+* Don's forget reset the state at every beginning of the epoch.
+
 
 	```python
     class ResetStatesCallback(keras.callbacks.Callback):
         def on_epoch_begin(self, epoch, logs):
             self.model.reset_states()
     ```
-	* Model now has **`stateful=True`.**
-	```python
-    model = keras.models.Sequential([
-      keras.layers.SimpleRNN(100, return_sequences=True, stateful=True,
-                             batch_input_shape=[1, None, 1]),
-      keras.layers.SimpleRNN(100, return_sequences=True, stateful=True),
-      keras.layers.Dense(1),
-      keras.layers.Lambda(lambda x: x * 200.0)
-    ])
-    ```
     
+    ---
+    
+
+	* Model now has **`stateful=True`.**
+
+      ```python
+      model = keras.models.Sequential([
+        keras.layers.SimpleRNN(100, return_sequences=True, stateful=True,
+                               batch_input_shape=[1, None, 1]),
+        keras.layers.SimpleRNN(100, return_sequences=True, stateful=True),
+        keras.layers.Dense(1),
+        keras.layers.Lambda(lambda x: x * 200.0)
+      ])
+      ```
+
+
 ## 8.7. LSTM Cells
 
 * Let's look at another technique to make the RNN learn long-term patterns.
@@ -257,26 +283,31 @@
 	<img width="600px" src="img/8.png">
 
 * LSTM cell을 간단히 설명하자면, 기본적으로 전체 정보를 쭉 가지고 전달을 하는 Ct−1,Ct를 이어주는 Cell state가 있습니다. 그리고 이전 과거로부터 받은 정보와 지금 들어온 인풋 중에 어떤 정보를 얼마나 반영시킬지(=얼마를 잊어버릴지) 정하는 Forget gate. Input으로 들어온 정보를 얼마나 Cell state 반영할 지에 대해 결정하는 Input gate. 그리고 마지막으로 그렇게 형성된 Cell state 정보와 현재 input의 정보를 보았을 때 적절한 output을 결정하게 되는 Output gate. 이렇게 크게 세 부분으로 이루어져 있습니다.
+---
 
-    #### Code
+#### Code
 
-    ```python
-    model = keras.models.Sequential([
-      keras.layers.LSTM(100, return_sequences=True, stateful=True,
-                        batch_input_shape=[1, None, 1]),
-      keras.layers.LSTM(100, return_sequences=True, stateful=True),
-      keras.layers.Dense(1),
-      keras.layers.Lambda(lambda x: x * 200.0)
-    ])
-    ```
+```python
+model = keras.models.Sequential([
+  keras.layers.LSTM(100, return_sequences=True, stateful=True,
+                    batch_input_shape=[1, None, 1]),
+  keras.layers.LSTM(100, return_sequences=True, stateful=True),
+  keras.layers.Dense(1),
+  keras.layers.Lambda(lambda x: x * 200.0)
+])
+```
+<br>
+
 ## 8.8. CNNs
 #### Hyperparameters
 * 'causal' padding:
 	* it's essential to ensure that the model doesn't cheat and use future values to forecast future values. So causal padding is usually a good choice.
 
-		<img src="img/9.png">
+		<img src="img/9.png" width=600>
 	
 * **The number of filter** of Conv1D can decide the **under or overfitting** of the model. 
+
+---
 
 #### Preprocessing With 1D-Convolutional Layers
 
@@ -294,6 +325,7 @@
   ])
   ```
   
+
  #### Fully Convolutional Forecasting(WaveNet)
  
 * Fully contructed with Conv1D layers. This one is really good.

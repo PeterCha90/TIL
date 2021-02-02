@@ -1,3 +1,7 @@
+<!--page_number:true-->
+<!-- $width: 1059-->
+<!-- $height: 1500-->
+
 # Lesson 7. Saving and Loading Models
 ### 7.1. Save as Keras `.h5` model
 
@@ -14,7 +18,7 @@
     model.save(export_path_keras)
     ```
 
-### **7.2. Load the Keras `.h5` model**  ☄️
+### **7.2. Load the Keras `.h5` model** 
 - `tf.keras.models.load_model( path, custom_objects: dict)`
 
     ```python
@@ -25,10 +29,14 @@
 
     reloaded.summary()
     ```
+    
+
 
 ### **7.3. Export as SavedModel**
 - **SavedModel** is a standalone serialization format for Tensorflow objects, supported by TensorFlow serving as well as TensorFlow implementations other than Python.
 - A SavedModel contains a complete TensorFlow program, including weights, computation and even the optimizers configuration.
+
+---
 - It does not require the original model building code to run, which makes it useful for sharing or deploying (with TFLite, TensorFlow.js, TensorFlow Serving, or TFHub).
 
 <img src="img/2.png">
@@ -52,9 +60,10 @@
     ```python
     reloaded_sm = **tf.saved_model.load**(export_path_sm)
     ```
+---
 
 ### **7.4. Loading the SavedModel as a Keras Model**
-- The object returned by **`tf.saved_model.load` is not a Keras object** (i.e. doesn't have `.fit`, `.predict`, `.summary`, etc. methods). Therefore, you can't simply take your `reloaded_sm` model and keep training it by running `.fit`.
+- The object returned by `tf.saved_model.load` is not a Keras object** (i.e. doesn't have `.fit`, `.predict`, `.summary`, etc. methods). Therefore, you can't simply take your `reloaded_sm` model and keep training it by running `.fit`.
 - To be able to get back a full keras model from the Tensorflow SavedModel format we must use the `tf.keras.models.load_model` function. This function will work the same as before, except now we pass the path to the folder containing our SavedModel.
 
     ```python
@@ -65,7 +74,7 @@
     reload_sm_keras.summary()
     ```
 
-### **7.5. Download your model** 🖥️
+### **7.5. Download your model** 
 - First, zip your file
 
     ```python
