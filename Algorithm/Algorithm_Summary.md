@@ -426,3 +426,147 @@ def get_max_value(data_list, capacity):
 ### 우선순위 큐 사용 장점
 - 지금까지 발견된 가장 짧은 거리의 노드에 대해서 먼저 계산
 - 더 긴 거리로 계산된 루트에 대해서는 계산을 스킵할 수 있음
+
+---
+
+* Dijkstra algorithm
+
+  ```python
+  import heapq
+  
+  def dijkstra(graph, start, end):
+      
+      distances = {vertex: [float('inf'), start] for vertex in graph}
+      distances[start] = [0, start]
+      queue = []
+      heapq.heappush(queue, [distances[start][0], start])
+
+      while queue:
+          current_distance, current_vertex = heapq.heappop(queue)
+          if distances[current_vertex][0] < current_distance:
+              continue
+
+          for adjacent, weight in graph[current_vertex].items():
+              distance = current_distance + weight
+   
+              if distance < distances[adjacent][0]:
+                  distances[adjacent] = [distance, current_vertex]
+                  heapq.heappush(queue, [distance, adjacent])
+
+      path = end
+      path_output = end + '<-'
+      while distances[path][1] != start:
+          path_output += distances[path][1] + '<-'
+          path = distances[path][1]
+      path_output += start
+      print (path_output, "Shortest cost: "+ str(distances[end][0]))
+      return distances
+  # 방향 그래프
+  mygraph = {
+      'A': {'B': 8, 'C': 1, 'D': 2},
+      'B': {},
+      'C': {'B': 5, 'D': 2},
+      'D': {'E': 3, 'F': 5},
+      'E': {'F': 1},
+      'F': {'A': 5}
+  }
+
+  print(dijkstra(mygraph, 'A', 'C'))
+  ```    
+* Output 
+	> C<-A Shortest cost: 1
+{'A': [0, 'A'], 'B': [6, 'C'], 'C': [1, 'A'], 'D': [2, 'A'], 'E': [5, 'D'], 'F': [6, 'E']}
+
+---
+
+### 5. 시간 복잡도
+- 위 다익스트라 알고리즘은 크게 다음 두 가지 과정을 거침
+  - 과정1: 각 노드마다 인접한 간선들을 모두 검사하는 과정
+  - 과정2: 우선순위 큐에 노드/거리 정보를 넣고 삭제(pop)하는 과정
+  
+- 각 과정별 시간 복잡도
+  - 과정1: 각 노드는 최대 한 번씩 방문하므로 (첫 노드와 해당 노드간의 갈 수 있는 루트가 있는 경우만 해당), 그래프의 모든 간선은 최대 한 번씩 검사
+    - 즉, 각 노드마다 인접한 간선들을 모두 검사하는 과정은 O(E) 시간이 걸림, E 는 간선(edge)의 약자
+
+  - 과정2: 우선순위 큐에 가장 많은 노드, 거리 정보가 들어가는 경우, 우선순위 큐에 노드/거리 정보를 넣고, 삭제하는 과정이 최악의 시간이 걸림
+    - 우선순위 큐에 가장 많은 노드, 거리 정보가 들어가는 시나리오는 그래프의 모든 간선이 검사될 때마다, 배열의 최단 거리가 갱신되고, 우선순위 큐에 노드/거리가 추가되는 것임
+    - 이 때 추가는 각 간선마다 최대 한 번 일어날 수 있으므로, 최대 O(E)의 시간이 걸리고, O(E) 개의 노드/거리 정보에 대해 우선순위 큐를 유지하는 작업은 $O(log{E})$ 가 걸림
+      - 따라서 해당 과정의 시간 복잡도는 $O(Elog{E})$ 
+    
+### 총 시간 복잡도
+  - 과정1 + 과정2 = O(E) + $O(Elog{E})$  = $O(E + Elog{E}) = O(Elog{E})$
+  
+### 참고: 힙의 시간 복잡도
+- depth (트리의 높이) 를 h라고 표기한다면,
+- n개의 노드를 가지는 heap 에 데이터 삽입 또는 삭제시, 최악의 경우 root 노드에서 leaf 노드까지 비교해야 하므로  h=log2n  에 가까우므로, 시간 복잡도는  O(logn)
+
+---
+
+# 최소 신장 트리의 이해
+
+### 1. 신장 트리 란?
+- Spanning Tree, 또는 신장 트리 라고 불리움 (Spanning Tree가 보다 자연스러워 보임)
+- 원래의 그래프의 모든 노드가 연결되어 있으면서 트리의 속성을 만족하는 그래프
+- 신장 트리의 조건
+  - 본래의 그래프의 모든 노드를 포함해야 함
+  - 모든 노드가 서로 연결
+  - 트리의 속성을 만족시킴 (사이클이 존재하지 않음)
+  
+  <img src="https://www.fun-coding.org/00_Images/spanningtree.png">
+  
+### 2. 최소 신장 트리 
+- Minimum Spanning Tree, MST 라고 불리움
+- 가능한 Spanning Tree 중에서, 간선의 가중치 합이 최소인 Spanning Tree를 지칭함
+
+<img src="https://www.fun-coding.org/00_Images/mst.png" width=400>
+
+---
+
+### 3. 최소 신장 트리 알고리즘
+- 그래프에서 최소 신장 트리를 찾을 수 있는 알고리즘이 존재함
+- 대표적인 최소 신장 트리 알고리즘
+  - Kruskal’s algorithm (크루스칼 알고리즘), Prim's algorithm (프림 알고리즘)
+
+### 4. 크루스칼 알고리즘 (Kruskal's algorithm)
+1. 모든 정점을 독립적인 집합으로 만든다.
+2. 모든 간선을 비용을 기준으로 정렬하고, 비용이 작은 간선부터 양 끝의 두 정점을 비교한다.
+3. 두 정점의 최상위 정점을 확인하고, 서로 다를 경우 두 정점을 연결한다. (최소 신장 트리는 사이클이 없으므로, 사이클이 생기지 않도록 하는 것임)
+
+> 탐욕 알고리즘을 기초로 하고 있음 (당장 눈 앞의 최소 비용을 선택해서, 결과적으로 최적의 솔루션을 찾음)
+> 
+<img src="https://www.fun-coding.org/00_Images/kruscal_internal1.png" width=650>
+
+---
+
+<img src="https://www.fun-coding.org/00_Images/kruscal_internal2.png" width=800>
+
+### 5. Union-Find 알고리즘
+- Disjoint Set을 표현할 때 사용하는 알고리즘으로 트리 구조를 활용하는 알고리즘
+- 간단하게, 노드들 중에 연결된 노드를 찾거나, 노드들을 서로 연결할 때 (합칠 때) 사용
+- Disjoint Set이란
+  - 서로 중복되지 않는 부분 집합들로 나눠진 원소들에 대한 정보를 저장하고 조작하는 자료구조
+  - 공통 원소가 없는 (서로소) 상호 배타적인 부분 집합들로 나눠진 원소들에 대한 자료구조를 의미함
+  - Disjoint Set = 서로소 집합 자료구조
+
+1. 초기화
+   - n 개의 원소가 개별 집합으로 이뤄지도록 초기화
+<img src="https://www.fun-coding.org/00_Images/initial_findunion.png" width=400>
+
+---
+
+2. Union
+   - 두 개별 집합을 하나의 집합으로 합침, 두 트리를 하나의 트리로 만듬
+<img src="https://www.fun-coding.org/00_Images/union_findunion.png" width=600>
+
+3. Find
+   - 여러 노드가 존재할 때, 두 개의 노드를 선택해서, 현재 두 노드가 서로 같은 그래프에 속하는지 판별하기 위해, 각 그룹의 최상단 원소 (즉, 루트 노드)를 확인
+<img src="https://www.fun-coding.org/00_Images/find_findunion.png" width=500>
+
+### Union-Find 알고리즘의 고려할 점
+- Union 순서에 따라서, 최악의 경우 링크드 리스트와 같은 형태가 될 수 있음.
+- 이 때는 Find/Union 시 계산량이 O(N) 이 될 수 있으므로, 해당 문제를 해결하기 위해, union-by-rank, path compression 기법을 사용함 
+
+	<center><img src="https://www.fun-coding.org/00_Images/worst_findunion.png" width=200></center>
+
+---
+
