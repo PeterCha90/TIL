@@ -86,3 +86,142 @@
 	```
     멍멍이's age is 2 years old, and cute truely
 	```
+    
+---
+# Function in Object
+* Code
+
+  ```javascript
+  const dog = {
+    name: 'doggy',
+    sound: 'bow-wow!',
+    say: function say() {
+      console.log(this.sound); // this means dog object
+    },
+    say2(){ // this also works
+      console.log(this.sound);
+    },
+    say3: () => { // this doesn't work. 
+                  // arrow-function can't find 'this' operator
+      console.log(this.sound);
+    }
+  }
+
+  const cat = {
+    name: 'kitty', 
+    sound: 'meow'
+  };
+
+  cat.say = dog.say; // cat.say is registered.
+  dog.say();
+  cat.say(); // this also works
+  dog.say2();
+  dog.say3();
+  ```
+* Output
+
+	```
+    bow-wow! 
+  meow 
+  bow-wow! 
+  Error in sandbox: 
+  TypeError: Cannot read property 'sound' of undefined
+	```
+
+---
+
+# Getter
+
+* Code: `get`
+
+  ```javascript
+  const numbers = {
+    a: 1, 
+    b: 2,
+    get sum() {
+      console.log('sum 함수가 실행됩니다!');
+      return this.a + this.b;
+    }
+  };
+  numbers.b = 5;
+  console.log(numbers.sum);
+  ```
+* Output
+
+	```
+  sum 함수가 실행됩니다! 
+  6
+	```
+    
+
+# Setter
+* Code: `set`
+  ```javascript
+  const dog = {
+    _name: 'doggy',
+
+    set name(value) {
+      console.log('이름이 바뀝니다..' + value);
+      this._name = value;
+    }
+  } 
+  console.log(dog._name);
+  dog.name = '뭉뭉이';
+  console.log(dog._name);
+  ```
+* Output
+
+	```
+  doggy 
+  이름이 바뀝니다..뭉뭉이 
+  뭉뭉이 
+	```
+    
+---
+
+# array - 1
+
+* Code: `[]`, `push`, `length`
+  ```javascript
+  // array can contain variaus elements
+  const array = [1,'g',{},4,5]; 
+  const objects = [
+    { name: 'doggy'},
+    { name: 'kitty'}
+  ];
+
+  console.log(array[0]);
+  console.log(objects[1])
+  console.log(objects.length);
+
+  objects.push({   // add new objects
+    name: '멍뭉이'
+  })   
+
+  console.log(objects.length);
+  ```
+* Output
+
+	```
+  1
+  {name: "kitty"}
+  2
+  3
+	```
+    
+# for
+* Code: `for( ; ; ){} `
+  ```javascript
+  for (let i =0; i <10; i++){
+    console.log(i);
+  }
+  ```
+* Output
+
+	```
+    (print 1 to 9)
+	```
+    
+---
+
+
