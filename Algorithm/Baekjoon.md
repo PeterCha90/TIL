@@ -273,6 +273,32 @@
   
 * **Code**:
 
-```python
+  ```python
+  num_test = int(input())
 
-```
+  for _ in range(num_test):
+      left, right = [], []
+      string = input()
+
+      for i in string:
+          if i == '-':
+              if left:
+                  left.pop()
+          elif i == '<':
+              if left:
+                  right.append(left.pop())
+          elif i == '>':
+              if right:
+                  left.append(right.pop())
+          else:
+              left.append(i)
+
+      left.extend(reversed(right))
+      print(''.join(left))
+
+  ```
+  <img src="img/5.png" width=100%>
+  
+  
+---
+
