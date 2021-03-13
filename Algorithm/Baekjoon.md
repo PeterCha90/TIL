@@ -302,7 +302,7 @@
   
 ---
 
-### [SHA-256](https://www.acmicpc.net/problem/10930)
+### 6. [SHA-256](https://www.acmicpc.net/problem/10930)
 
 * **문제**
 문자열 S가 주어졌을 때, SHA-256 해시값을 구하는 프로그램을 작성하시오.
@@ -337,7 +337,7 @@ Baekjoon
   
 ---
 
-### [수 찾기](https://www.acmicpc.net/problem/1920)
+### 7. [수 찾기](https://www.acmicpc.net/problem/1920)
 
 * **문제**
 N개의 정수 A[1], A[2], …, A[N]이 주어져 있을 때, 이 안에 X라는 정수가 존재하는지 알아내는 프로그램을 작성하시오.
@@ -364,7 +364,119 @@ M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0�
  ---
  * Code:
 
-```python
+  ```python
+  from collections import defaultdict
+
+  _ = int(input())
+  n_data = list(map(int, input().split(' ')))
+  num_dict = defaultdict(int)
+
+  for i, data in enumerate(n_data): 
+      num_dict[str(data)] = i+1
+
+  _ = int(input())
+  m_list = list(map(int, input().split(' ')))
+
+  for data in m_list:
+      answer = 1 if num_dict[str(data)] != 0 else 0
+      print(answer)
+  ```
+  <img src="img/7.png" width=100%>
+  
+  <br><br><br><br><br><br><br><br><br><br><br><br><br>
+  
+---
+
+### 8. [친구 네트워크](https://www.acmicpc.net/problem/4195)
+
+* **문제**
+민혁이는 소셜 네트워크 사이트에서 친구를 만드는 것을 좋아하는 친구이다. 우표를 모으는 취미가 있듯이, 민혁이는 소셜 네트워크 사이트에서 친구를 모으는 것이 취미이다.
+
+	어떤 사이트의 친구 관계가 생긴 순서대로 주어졌을 때, 두 사람의 친구 네트워크에 몇 명이 있는지 구하는 프로그램을 작성하시오.
+
+	친구 네트워크란 친구 관계만으로 이동할 수 있는 사이를 말한다.
+
+* **입력**
+첫째 줄에 테스트 케이스의 개수가 주어진다. 각 테스트 케이스의 첫째 줄에는 친구 관계의 수 F가 주어지며, 이 값은 100,000을 넘지 않는다. 다음 F개의 줄에는 친구 관계가 생긴 순서대로 주어진다. 친구 관계는 두 사용자의 아이디로 이루어져 있으며, 알파벳 대문자 또는 소문자로만 이루어진 길이 20 이하의 문자열이다.
+
+* **출력**
+친구 관계가 생길 때마다, 두 사람의 친구 네트워크에 몇 명이 있는지 구하는 프로그램을 작성하시오.
+
+* **예제**
+  <table>
+  <tr>
+  <th style="width: 300px"> 입력 </th>
+  <th style="width: 300px"> 출력 </th>
+  </tr>
+  <tr>
+  <td>
+
+  2
+  3
+  Fred Barney
+  Barney Betty
+  Betty Wilma
+  3
+  Fred Barney
+  Betty Wilma
+  Barney Betty
+
+  </td>
+  <td>
+
+  2
+  3
+  4
+  2
+  2
+  4
+  </td>
+  </tr>
+  </table>
+  
+--- 
 
 
-```
+  
+* Code: Union-Find 문제
+
+  ```python
+  from collections import defaultdict
+
+  num_case = int(input())
+
+  def find_root(person):
+      if person == parent[person]:
+          return person
+      else:
+          p = find_root(parent[person])
+          parent[person] = p
+          return parent[person]
+
+  def union(one, another):
+      one = find_root(one)
+      another = find_root(another)
+
+      if one != another:
+          parent[another] = one
+          number[one] += number[another]
+
+
+  for _ in range(num_case):
+      num_rel = int(input())
+      parent = defaultdict(str)
+      number = defaultdict(int)
+
+      for _ in range(num_rel):
+          rel = list(map(str, input().split(' ')))
+          one, another = rel[0], rel[1]
+
+          for person in rel:
+              if parent[person] == '':
+                  parent[person] = person
+                  number[person] = 1
+
+          union(one, another)
+          print(number[find_root(one)])        
+  ```
+  <img src="img/8.png" width=100%>
