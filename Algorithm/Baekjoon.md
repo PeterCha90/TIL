@@ -668,6 +668,15 @@ N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로�
       result = result + str(num)
 
   print(result)
+  
+  # or
+  
+  num_list = input()
+
+  for j in range(9, -1, -1):
+      for i in num_list:
+          if int(i) == j:
+              print(i, end='')
   ```
 	<img src="img/9.png" width=100%>
 
