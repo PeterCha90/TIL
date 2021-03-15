@@ -480,3 +480,196 @@ M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0�
           print(number[find_root(one)])        
   ```
   <img src="img/8.png" width=100%>
+  
+  
+---
+
+### 10. [수 정렬하기](https://www.acmicpc.net/problem/2750) 
+
+* **문제**
+N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로그램을 작성하시오.
+
+* **입력**
+첫째 줄에 수의 개수 N(1 ≤ N ≤ 1,000)이 주어진다. 둘째 줄부터 N개의 줄에는 숫자가 주어진다. 이 수는 절댓값이 1,000보다 작거나 같은 정수이다. 수는 중복되지 않는다.
+
+* **출력**
+첫째 줄부터 N개의 줄에 오름차순으로 정렬한 결과를 한 줄에 하나씩 출력한다.
+
+
+
+* **예제**
+  <table>
+  <tr>
+  <th style="width: 300px"> 입력 </th>
+  <th style="width: 300px"> 출력 </th>
+  </tr>
+  <tr>
+  <td>
+
+  5
+5
+2
+3
+4
+1
+
+  </td>
+  <td>
+
+  1
+2
+3
+4
+5
+  </td>
+  </tr>
+  </table>
+  <img src="img/10.png" width=100%>
+	
+---
+* Code:
+
+  ```python
+  num_list_len = int(input())
+  num_array = []
+
+  # input 
+  for _ in range(num_list_len):
+      num = int(input())
+      num_array.append(num)
+
+  # ordering 
+  # 1. Bubble sort O(n) ~ O(n^2)
+  def bubble(data):
+      for i in range(len(data)-1):
+          swap = False
+          for j in range(len(data) - i-1):
+              if data[j] > data[j+1]:
+                  data[j], data[j+1] = data[j+1], data[j]
+                  swap = True
+          if swap == False:
+              break
+      return data
+
+  # 2. Selection Sort O(n^2)
+  def selection(data):
+      for i in range(len(data)-1):
+          mini = i
+          for j in range(i+1, len(data)):
+               mini = j if data[j] < data[mini] else mini
+          data[i], data[mini] = data[mini], data[i]
+      return data
+
+  # 3. Insertion Sort - Start from second item O(n) ~ O(n^2)
+  def insertion(data):
+      for i in range(len(data)-1):
+          for i in range(i+1, 0, -1):
+              if data[i] < data[i-1]:
+                  data[i], data[i-1] = data[i-1], data[i]
+              else: break
+      return data
+  ```
+
+
+---
+* Code: 
+  ```python
+  # 4. QuickSort - O(nlogn), O(n^2)
+  def quick(data):
+      # when it reaches to the leaf
+      if len(data) <= 1:
+          return data
+
+      pivot = data.pop(0)
+      left = [x for x in data if x < pivot]
+      right = [x for x in data if x >= pivot]
+      return quick(left) + [pivot] + quick(right)
+
+  # 5. MergeSort - O(nlogn)
+  def merge_sort(data):
+      if len(data) == 1:
+          return data
+      middle = len(data)//2
+      left = merge_sort(data[:middle])
+      right = merge_sort(data[middle:])
+      return merge(left, right)
+
+  def merge(left, right):
+      result = []
+      l_idx, r_idx = 0, 0
+
+      while(l_idx != len(left) or r_idx != len(right)):
+          if left[l_idx] < right[r_idx]:
+              result.append(left[l_idx])
+              l_idx += 1
+              if l_idx == len(left):
+                  result = result + right[r_idx:]
+                  break
+          else:
+              result.append(right[r_idx])
+              r_idx += 1
+              if r_idx == len(right):
+                  result = result + left[l_idx:]
+                  break
+      return result
+
+  # output
+  num_array = merge_sort(num_array)
+
+  for num in num_array:
+      print(num)
+  ```
+---
+
+### 11. [소트인사이드](https://www.acmicpc.net/problem/1427)
+
+* **문제**
+배열을 정렬하는 것은 쉽다. 수가 주어지면, 그 수의 각 자리수를 내림차순으로 정렬해보자.
+
+* **입력**
+첫째 줄에 정렬하고자하는 수 N이 주어진다. N은 1,000,000,000보다 작거나 같은 자연수이다.
+
+* **출력**
+첫째 줄에 자리수를 내림차순으로 정렬한 수를 출력한다.
+
+* **예제**
+  <table>
+  <tr>
+  <th style="width: 300px"> 입력 </th>
+  <th style="width: 300px"> 출력 </th>
+  </tr>
+  <tr>
+  <td>
+
+  2143
+
+  </td>
+  <td>
+
+  4321
+  
+  </td>
+  </tr>
+  </table>
+
+
+---
+
+* Code:
+
+  ```python
+  num_str = str(input())
+
+  num_list = [int(char) for char in num_str]
+  num_list = sorted(num_list, reverse=True)
+
+  result = ''
+  for num in num_list:
+      result = result + str(num)
+
+  print(result)
+  ```
+	<img src="img/9.png" width=100%>
+
+
+

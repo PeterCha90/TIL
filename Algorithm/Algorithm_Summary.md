@@ -36,14 +36,13 @@
 ---
 * Code
   ```python
-  def insertion_sort(data):
-    for index in range(len(data)-1):
-        for index2 in range(index+1, 0, -1):
-            if data[index2] < data[index2-1]:
-                data[index2], data[index2-1] = data[index2-1], data[index2]
-            else:
-                break
-    return data
+  def selection(data):
+      for i in range(len(data)-1):
+          mini = i
+          for j in range(i+1, len(data)):
+               mini = j if data[j] < data[mini] else mini
+          data[i], data[mini] = data[mini], data[i]
+      return data
   ```
 
 
@@ -53,8 +52,14 @@
 * Best Case - 이미 정렬돼있을 경우, $O(n)$, 최악의 경우 $O(n^2)$
 
   ```python
-  code here
-
+  def insertion_sort(data):
+      for index in range(len(data)-1):
+          for index2 in range(index+1, 0, -1):
+              if data[index2] < data[index2-1]:
+                  data[index2], data[index2-1] = data[index2-1], data[index2]
+              else:
+                  break
+      return data
   ```
 
 ---
@@ -70,10 +75,10 @@
 * 아래와 같은 재귀용법의 경우, 재귀함수 호출과 함께 $n$이라는 변수가 계속 생기기 때문에 공간복잡도는 $O(n)$.
   ```python
   def factorial(n):
-  if n > 1:
-      return n * factorial(n-1)
-  else:
-      return 1
+      if n > 1:
+          return n * factorial(n-1)
+      else:
+          return 1
   ```
   
 <br>
@@ -127,16 +132,17 @@
 * 대표적인 Divide-and-Conquer, 분할 정복 알고리즘.
 * **Pivot을 정하고, Pivot보다 작으면 왼쪽, 크면 오른쪽으로 다 모은 뒤에 각각 재귀적으로 또 Quick sort를 태우고** 마지막 leaf node부터 return 되는 list를 싹다 모으면 정렬이 완성되는.
 
-	```python
-    def qsort(data):
-        if len(data) <= 1:
-        	return data
-        
-        pivot = data[0]
-        left = [item for item in data if item <= pivot]
-        right = [item for item in data if item > pivot]
-        return qsort(left) + [pivot] + qsort(right)
-    ```
+  ```python
+  def quick(data):
+      # when it reaches to the leaf
+      if len(data) <= 1:
+          return data
+
+      pivot = data.pop(0)
+      left = [x for x in data if x < pivot]
+      right = [x for x in data if x >= pivot]
+      return quick(left) + [pivot] + quick(right)
+  ```
     
 * **시간 복잡도**:
 	$O(n\text{log}n)$, 최악의 경우: $O(n^2)$
@@ -150,36 +156,34 @@
 
 * 받은 데이터의 가운데를 기준으로 좌우를 나누고, 재귀적으로 젤 밑에서부터 Merge를 할 때, 크기가 작은 순서대로 정렬해서 반환하는 형태 
 
-	```python
-    def merge_sort(data):
+  ```python
+  def merge_sort(data):
       if len(data) == 1:
           return data
-      medium = int(len(data)/2)
-      left = merge_sort(data[:medium])
-      right = merge_sort(data[medium:])
+      middle = len(data)//2
+      left = merge_sort(data[:middle])
+      right = merge_sort(data[middle:])
       return merge(left, right)
-      
-    def merge(left, right):
-      result = []
-      left_idx, right_idx = 0, 0
 
-      while(left_idx != len(left) or right_idx != len(right)):
-          if left[left_idx] < right[right_idx]:
-              result.append(left[left_idx])
-              left_idx += 1
-              if left_idx == len(left):
-                  for idx in range(right_idx, len(right)):
-                      result.append(right[idx])
+  def merge(left, right):
+      result = []
+      l_idx, r_idx = 0, 0
+
+      while(l_idx != len(left) or r_idx != len(right)):
+          if left[l_idx] < right[r_idx]:
+              result.append(left[l_idx])
+              l_idx += 1
+              if l_idx == len(left):
+                  result = result + right[r_idx:]
                   break
           else:
-              result.append(right[right_idx])
-              right_idx += 1
-              if right_idx == len(right):
-                  for idx in range(left_idx, len(left)):
-                      result.append(left[idx])
+              result.append(right[r_idx])
+              r_idx += 1
+              if r_idx == len(right):
+                  result = result + left[l_idx:]
                   break
       return result
-    ```
+  ```
     
 * **시간 복잡도**: 항상 $O(n\text{log}n)$ 보장.
 * **공간 복잡도**:
