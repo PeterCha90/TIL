@@ -484,7 +484,7 @@ M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0�
   
 ---
 
-### 10. [수 정렬하기](https://www.acmicpc.net/problem/2750) 
+### 9. [수 정렬하기](https://www.acmicpc.net/problem/2750) 
 
 * **문제**
 N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로그램을 작성하시오.
@@ -621,7 +621,7 @@ N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로�
   ```
 ---
 
-### 11. [소트인사이드](https://www.acmicpc.net/problem/1427)
+### 10. [소트인사이드](https://www.acmicpc.net/problem/1427)
 
 * **문제**
 배열을 정렬하는 것은 쉽다. 수가 주어지면, 그 수의 각 자리수를 내림차순으로 정렬해보자.
@@ -653,7 +653,7 @@ N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로�
   </table>
 
 
----
+
 
 * Code:
 
@@ -678,7 +678,169 @@ N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로�
           if int(i) == j:
               print(i, end='')
   ```
-	<img src="img/9.png" width=100%>
+	<img src="img/9.png" width=70%>
+
+---
 
 
+### 11. [나이순 정렬](https://www.acmicpc.net/problem/10814)
 
+* **문제**
+온라인 저지에 가입한 사람들의 나이와 이름이 가입한 순서대로 주어진다. 이때, 회원들을 나이가 증가하는 순으로, 나이가 같으면 먼저 가입한 사람이 앞에 오는 순서로 정렬하는 프로그램을 작성하시오.
+
+* **입력**
+첫째 줄에 온라인 저지 회원의 수 N이 주어진다. (1 ≤ N ≤ 100,000)
+
+	둘째 줄부터 N개의 줄에는 각 회원의 나이와 이름이 공백으로 구분되어 주어진다. 나이는 1보다 크거나 같으며, 200보다 작거나 같은 정수이고, 이름은 알파벳 대소문자로 이루어져 있고, 길이가 100보다 작거나 같은 문자열이다. 입력은 가입한 순서로 주어진다.
+
+* **출력**
+첫째 줄부터 총 N개의 줄에 걸쳐 온라인 저지 회원을 나이 순, 나이가 같으면 가입한 순으로 한 줄에 한 명씩 나이와 이름을 공백으로 구분해 출력한다.
+
+
+  <table>
+    <tr>
+    <th style="width: 300px"> 입력 </th>
+    <th style="width: 300px"> 출력 </th>
+    </tr>
+    <tr>
+    <td>
+
+    3
+  21 Junkyu
+  21 Dohyun
+  20 Sunyoung
+
+    </td>
+    <td>
+
+    20 Sunyoung
+  21 Junkyu
+  21 Dohyun
+
+    </td>
+    </tr>
+    </table>
+---
+
+* Code: 
+
+  ```python
+  num_member = int(input())
+  member_list = []
+
+  def merge_sort(data, key):
+      if len(data) == 1:
+          return data
+      middle = len(data)//2
+      left = merge_sort(data[:middle], key)
+      right = merge_sort(data[middle:], key)
+      return merge(left, right, key)
+
+  def merge(left, right, key):
+      l_idx, r_idx = 0, 0
+      result = []
+      while(l_idx != len(left) or r_idx != len(right)):
+          if key(left[l_idx]) < key(right[r_idx]):
+              result.append(left[l_idx])
+              l_idx += 1
+              if l_idx == len(left):
+                  result = result + right[r_idx:]
+                  break
+          # if both are same age.
+          elif key(left[l_idx]) == key(right[r_idx]):
+              if left[l_idx][0] < right[r_idx][0]:
+                  result.append(left[l_idx])
+                  l_idx += 1
+                  if l_idx == len(left):
+                      result = result + right[r_idx:]
+                      break
+              else:
+                  result.append(right[r_idx])
+                  r_idx += 1
+                  if r_idx == len(right):
+                      result = result + left[l_idx:]
+                      break    
+          else:
+              result.append(right[r_idx])
+              r_idx += 1
+              if r_idx == len(right):
+                  result = result + left[l_idx:]
+                  break
+      return result
+  ```
+  
+---
+
+* Code:
+
+  ```python
+  # save data
+  for i in range(num_member):
+      member = input().split(' ')
+      member = (int(member[0]), member[1])
+      member_list.append((i, member))
+
+  member_list = merge_sort(member_list, lambda x: x[1][0])
+
+  for member in member_list:
+      print(member[1][0], member[1][1])
+	```
+	<img src="img/11.png" width=100%>
+    
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+---
+
+### 12. [좌표 정렬하기](https://www.acmicpc.net/problem/11650)
+
+* **문제** - 2차원 평면 위의 점 N개가 주어진다. 좌표를 x좌표가 증가하는 순으로, x좌표가 같으면 y좌표가 증가하는 순서로 정렬한 다음 출력하는 프로그램을 작성하시오.
+
+* **입력** - 첫째 줄에 점의 개수 N (1 ≤ N ≤ 100,000)이 주어진다. 둘째 줄부터 N개의 줄에는 i번점의 위치 xi와 yi가 주어진다. (-100,000 ≤ xi, yi ≤ 100,000) 좌표는 항상 정수이고, 위치가 같은 두 점은 없다.
+
+* **출력**
+첫째 줄부터 N개의 줄에 점을 정렬한 결과를 출력한다.
+
+	<table>
+    <tr>
+    <th style="width: 300px"> 입력 </th>
+    <th style="width: 300px"> 출력 </th>
+    </tr>
+    <tr>
+    <td>
+    5
+    
+    3 4
+    1 1
+    1 -1
+    2 2
+    3 3
+    </td>
+    <td>
+
+    1 -1
+  1 1
+  2 2
+  3 3
+  3 4
+    </td>
+    </tr>
+    </table>
+    
+* Code: 
+
+  ```python
+  num_points = int(input())
+
+  points = []
+  for _ in range(num_points):
+      point = tuple(map(int, input().split(' ')))
+      points.append(point)
+  # 기본적으로 오름차순으로 정렬함
+  points = sorted(points)
+
+  for point in points:
+      print(point[0], point[1])
+  ```
+	<img src="img/12.png" width=100%>
+    
+---
