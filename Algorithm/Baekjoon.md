@@ -844,3 +844,145 @@ N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로�
 	<img src="img/12.png" width=100%>
     
 ---
+
+### 13. [수 정렬하기 3](https://www.acmicpc.net/problem/10989)
+
+* **문제**
+N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로그램을 작성하시오.
+
+* **입력**
+첫째 줄에 수의 개수 N(1 ≤ N ≤ 10,000,000)이 주어진다. 둘째 줄부터 N개의 줄에는 숫자가 주어진다. 이 수는 10,000보다 작거나 같은 자연수이다.
+
+* **출력**
+첫째 줄부터 N개의 줄에 오름차순으로 정렬한 결과를 한 줄에 하나씩 출력한다.
+
+  <table>
+  <tr>
+  <th style="width: 300px"> 입력 </th>
+  <th style="width: 300px"> 출력 </th>
+  </tr>
+  <tr>
+  <td>
+
+  10
+  5
+  2
+  3
+  1
+  4
+  2
+  3
+  5
+  1
+  7
+  </td>
+  <td>
+
+  1
+  1
+  2
+  2
+  3
+  3
+  4
+  5
+  5
+  7
+  </td>
+  </tr>
+  </table>
+  
+---
+
+* Code:
+
+  ```python
+  import sys 
+
+  num_of_num = int(sys.stdin.readline())
+
+  array = [0] * 10001
+  for _ in range(num_of_num):
+      num = int(sys.stdin.readline())
+      array[num] += 1
+
+  for i in range(10001):
+      if array[i] != 0:
+          for j in range(array[i]):
+              print(i)
+  ```
+  <img src="img/13.png" width=100%>
+    
+* 포인트: 
+	1. 문제는 쉽지만, 메모리 제한에 걸리기 쉬워 $O(n)$의 시간복잡도를 보장하는 알고리즘으로만 해야하기 때문에 `Counting Sort`를 사용해야 한다.
+    2. 시간 제한 때문에, `input()`이 아닌 `sys.stdin.readline()`을 사용해야한다. 
+    3. 그리고 문제에서 말하는, **'이 수는 10,000보다 작거나 같은 자연수이다.'** 라고 한 부분을 힌트로 삼아서 Counting Sort를 구현할 때, array의 길이로 사용해야 한다. 
+
+---
+
+### 14. [피보나치 수](https://www.acmicpc.net/problem/2747)
+
+* **문제**
+피보나치 수는 0과 1로 시작한다. 0번째 피보나치 수는 0이고, 1번째 피보나치 수는 1이다. 그 다음 2번째 부터는 바로 앞 두 피보나치 수의 합이 된다.
+
+	이를 식으로 써보면 Fn = Fn-1 + Fn-2 (n ≥ 2)가 된다.
+
+	n=17일때 까지 피보나치 수를 써보면 다음과 같다.
+
+	0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597
+
+	n이 주어졌을 때, n번째 피보나치 수를 구하는 프로그램을 작성하시오.
+
+* **입력**
+첫째 줄에 n이 주어진다. n은 45보다 작거나 같은 자연수이다.
+
+* **출력**
+첫째 줄에 n번째 피보나치 수를 출력한다.
+
+  <table>
+  <tr>
+  <th style="width: 300px"> 입력 </th>
+  <th style="width: 300px"> 출력 </th>
+  </tr>
+  <tr>
+  <td>
+  10
+  </td>
+  <td>
+  55
+  </td>
+  </tr>
+  </table>
+---
+* Code: 
+
+  ```python
+  num = int(input())
+  array = [0, 1] + [0]*44
+
+  def fibo(num):
+      if num == 0 or num == 1:
+          return num
+      if array[num] == 0:
+          array[num] = fibo(num-1) + fibo(num-2)
+          return array[num]
+      else:
+          return array[num]
+
+  print(fibo(num))
+  ```
+  ```
+  # or 발상의 전환
+  n = int(input())
+  
+  a, b = 0, 1
+  
+  while n > 0:
+      a, b = b, a + b
+      n -= 1
+  
+  print(a)
+  ```
+  <img src="img/14.png" width=100%>
+  
+  * 이 문제도 냅다 재귀함수를 쓰면 시간 초과에 걸린다. Dynamic programming 개념으로 이미 계산된 부분은 저장을 하거나, 참신한 발상으로 해결해야함.
