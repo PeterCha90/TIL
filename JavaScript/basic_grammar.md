@@ -65,8 +65,14 @@
     멍멍이 
     true
 	```
+* 필수암기 Object functions, `Object.entries()`, `Object.keys()`
+`Object.values()`
 
-<br>
+  ```javascript
+  console.log(Object.entries(dog)); // Array Tree
+  console.log(Object.keys(dog)); // ["name", "sound", "age"]
+  console.log(Object.values(dog)); // ["멍멍이", 2, true]
+  ```
 
 # Destructuring assignment
 
@@ -223,5 +229,38 @@
 	```
     
 ---
+# while
+* Code: `while (condition) {}`
 
+# for ... of ... 
+* Python의 comprehension 같은 느낌
+* Code:
+	```javascript
+    const numbers = [10, 20, 30, 40, 50];
+  
+  for (let number of numbers) {
+        console.log(number);
+  }
+  // 10, 20, 30, 40, 50
+    ```
+    
+# for ... in ...
+* 객체에 대한 반복에 주로 사용
+* Code:
 
+  ```javascript
+  const dog = {
+      name: '멍멍이',
+      sound: '멍멍',
+      age: 2
+  };
+
+  for (let key in dog) {
+      console.log(key)
+  } // 'name', 'sound', 'age'
+ 
+  // with template literal
+  for (let key in dog) {
+      console.log(`${key}: ${dog[key]}`);
+  }
+  ```
