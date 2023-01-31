@@ -20,4 +20,4 @@
 
 
 ### 결과물 
-<img src="../img/todo.gif>
+<img src="../img/todo.gif">
