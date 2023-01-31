@@ -3,9 +3,9 @@
 # Todo List 
 ### by [Velopert](https://react.vlpt.us/mashup-todolist/)
 
-* React의 기본개념 스터디를 마치고, 배운 내용을 체화하기에 좋았던 실습 프로젝트
+* React의 기본개념 스터디를 마치고, 배운 내용을 체화하기에 좋았던 실습 프로젝트.
 
-### install
+### Install
 * Run the following scripts.
 
    ```Shell
@@ -19,5 +19,5 @@
 * Replace the origin `src` directory with the `src` directory placed this path. 
 
 
-### 결과물 
+### Result 
 <img src="../img/todo.gif">
