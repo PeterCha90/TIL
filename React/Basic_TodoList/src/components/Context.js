@@ -41,7 +41,7 @@ function Reducer(state, action) {
 
 const TodoStateContext = createContext()
 const TodoDispatchContext = createContext()
-const TodoNetIdContext = createContext()
+const TodoNextIdContext = createContext()
 
 export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(Reducer, initialTodos)
@@ -49,9 +49,9 @@ export function TodoProvider({ children }) {
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
-        <TodoNetIdContext.Provider value={nextId}>
+        <TodoNextIdContext.Provider value={nextId}>
           {children}
-        </TodoNetIdContext.Provider>
+        </TodoNextIdContext.Provider>
       </TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
   )
@@ -78,7 +78,7 @@ export function useTododispatch() {
 }
 
 export function useTodoNextId() {
-  const context = useContext(TodoNetIdContext)
+  const context = useContext(TodoNextIdContext)
   if (!context) {
     throw new Error('Cannot find TodoProvider')
   }

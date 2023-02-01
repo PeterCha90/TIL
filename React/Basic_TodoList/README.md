@@ -18,6 +18,8 @@
    ```
 * Replace the origin `src` directory with the `src` directory placed this path. 
 
+### Structure
+<img src="..img/d2.png">
 
 ### Result 
 <img src="../img/todo.gif">

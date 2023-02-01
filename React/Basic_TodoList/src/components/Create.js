@@ -74,6 +74,7 @@ const Input = styled.input`
 `
 
 function Create({ id, text }) {
+  // Context
   const dispatch = useTododispatch()
   const nextId = useTodoNextId()
 

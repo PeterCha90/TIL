@@ -1,0 +1,84 @@
+# Settings
+direction: right
+
+# Item Declaration
+head: Head.js {
+  style: {
+    font-size: 30
+  }
+}
+
+item: Item.js {
+  style: {
+    font-size: 30
+  }
+}
+create: Create.js {
+  style: {
+    font-size: 30
+  }
+}
+list: List.js {
+  style: {
+    font-size: 30
+  }
+}
+context: Context.js {
+  style: {
+    font-size: 50
+  }
+}
+
+# Design
+context.style.3d: true
+context.todostate: TodoStateContext {
+  style: {
+    font-size: 30
+  }
+}
+context.dispatchstate: DispatchContext {
+  style: {
+    font-size: 30
+  }
+}
+context.nextidstate: NextIdContext {
+  style: {
+    font-size: 30
+  }
+}
+
+# Diagrams 
+context.todostate -> head: undoneTasks {
+  style: {
+    font-size: 30
+    bold: true
+  }
+}
+
+context.todostate -> list: todos {
+  style: {
+    font-size: 30
+    bold: true
+  }
+}
+
+context.dispatchstate -> create: onSubmit() {
+  style: {
+    font-size: 30
+    bold: true
+  }
+}
+context.dispatchstate -> item: onRemove(), onToggle() {
+  style: {
+    font-size: 30
+    bold: true
+  }
+}
+
+context.nextidstate -> create: onSubmit() {
+  style: {
+    font-size: 30
+    bold: true
+  }
+}
+
