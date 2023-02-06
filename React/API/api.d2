@@ -1,0 +1,101 @@
+# Settings
+direction: down
+
+# Item Declaration
+api: api.js {
+  style: {
+    3d: true
+    font-size: 40
+    bold: true
+  }
+}
+context: UsersContext.js {
+  style: {
+    font-size: 40
+    bold: true
+  }
+}
+asyncAction: asyncActionUtils.js {
+  style: {
+    3d: true
+    font-size: 40
+    bold: true
+  }
+}
+users: Users.js {
+  style: {
+    3d: true
+    font-size: 40
+    bold: true
+  }
+}
+user: User.js {
+  style: {
+    3d: true
+    font-size: 40
+    bold: true
+  }
+}
+
+context.style.3d: true
+
+api.getUsers: {
+  style: {
+    font-size: 30
+  }
+}
+api.getUser(id): {
+  style: {
+    font-size: 30
+  }
+}
+
+context.UsersStateContext: {
+  style: {
+    font-size: 30
+  }
+}
+context.UsersDispatchContext: {
+  style: {
+    font-size: 30
+  }
+}
+
+asyncAction.createAsyncHandler(): {
+  style: {
+    font-size: 30
+  }
+}
+asyncAction.createAsyncDispatcher(): {
+  style: {
+    font-size: 30
+  }
+}
+
+# Connection 
+api -> context: getUsers, getUser: {
+  style: {
+    font-size: 30
+  }
+}
+asyncAction.createAsyncDispatcher() -> context: getUsers, getUser: {
+  style: {
+    font-size: 30
+  }
+}
+asyncAction.createAsyncHandler() -> context: usersReducer: {
+  style: {
+    font-size: 30
+  }
+}
+context -> user: useUsersState, useUsersDispatch, getUser: {
+  style: {
+    font-size: 30
+  }
+}
+context -> users: useUsersState, useUsersDispatch, getUsers: {
+  style: {
+    font-size: 30
+  }
+}
+user -> users
