@@ -11,9 +11,6 @@
   ```Shell
   $ npx create-react-app todo
   $ cd todo
-  $ yarn start // for creat a lockfile
-
-  (stop the app)
   $ yarn add react-icons styled-components
   ```
 
