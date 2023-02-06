@@ -2,6 +2,13 @@
 direction: down
 
 # Item Declaration
+app: App.js {
+  style: {
+    3d: true
+    font-size: 40
+    bold: true
+  }
+}
 api: api.js {
   style: {
     3d: true
@@ -99,3 +106,9 @@ context -> users: useUsersState, useUsersDispatch, getUsers: {
   }
 }
 user -> users
+users -> app
+context -> app: UsersProvider {
+  style: {
+    font-size: 30
+  }
+}

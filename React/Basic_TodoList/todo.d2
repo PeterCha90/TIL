@@ -1,7 +1,12 @@
 # Settings
-direction: right
+direction: down
 
 # Item Declaration
+app: App.js {
+  style: {
+    font-size: 30
+  }
+}
 head: Head.js {
   style: {
     font-size: 30
@@ -82,3 +87,13 @@ context.nextidstate -> create: onSubmit() {
   }
 }
 
+item -> list
+list -> app
+create -> app
+head -> app
+context -> app: TodoProvider {
+  style: {
+    font-size: 30
+    bold: true
+  }
+}
