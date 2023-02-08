@@ -31,3 +31,7 @@
 
 - `Nested Route` & `Outlet` Component for Layout
 - <Route path="\*" element={<NotFound />} /> for 404 NotFound Page
+
+### Result
+
+<img src="../img/router.gif">
