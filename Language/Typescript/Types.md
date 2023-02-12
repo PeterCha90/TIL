@@ -24,7 +24,7 @@ const player: {
 
 ---
 
-- `**?`를 사용하면 Optional하게 변수를 가져도 되고 안가져도 되게 설정할 수 있다\*\*. 아래는 age를 optional하게 가지지 않아도 에러를 일으키지 않게 하는 코드.
+- **`?`를 사용하면 Optional하게 변수를 가져도 되고 안가져도 되게 설정할 수 있다**. 아래는 age를 optional하게 가지지 않아도 에러를 일으키지 않게 하는 코드.
 
 ```tsx
 const player: {
@@ -166,25 +166,25 @@ if (typeof a === 'string') {
 }
 ```
 
-- 아래 사진에서 보듯이 if문 안에서의 a는 해당 scope에서는 number로 인지하고 있다는 것을 알 수 있다.
-  ![스크린샷 2023-02-12 오후 10.17.18.png](../img/type_1.png)
+- 아래 사진에서 보듯이 if문 안에서의 a는 해당 scope에서는 number로 인지하고 있다는 것을 알 수 있다. <br>
+  <img src="../img/type_1.png" width = "275px">
 
 ### void
 
 ---
 
-- `void`는 아무것도 return하지 않는 함수를 대상으로 사용한다. 예를들어 아래같은 경우! 이게 다임.
-  ![스크린샷 2023-02-12 오후 10.19.38.png](../img/type_2.png)
+- `void`는 아무것도 return하지 않는 함수를 대상으로 사용한다. 예를들어 아래같은 경우! 이게 다임.  <br>
+  <img src="../img/type_2.png" width = "275px">
 
 ### never
 
 ---
 
 - 이건 그렇게 많이 사용하진 않지만 뭔지 아는 것은 중요하다. `never`는 함수가 절대 return하지 않을 때 발생한다.
-- 아래에서 hello 함수는 name이라는 파라미터를 받는데, string이거나 number일 수 있다고 했을 때, string if scope안에서는 string이고 number 안에서는 number로 인식이 되겠지만, 그 외에 세 번째의 경우 있을 수 없는 경우라고 never로 인식이 된다.
-  ![스크린샷 2023-02-12 오후 10.24.59.png](../img/type_3.png)
+- 아래에서 hello 함수는 name이라는 파라미터를 받는데, string이거나 number일 수 있다고 했을 때, string if scope안에서는 string이고 number 안에서는 number로 인식이 되겠지만, 그 외에 세 번째의 경우 있을 수 없는 경우라고 never로 인식이 된다.<br>
+  <img src="../img/type_3.png" width = "400px"> 
 - 이렇게 never에 해당하는 경우, return을 할 수 없게 Typescript는 보호하는데, 쓸 수 있게 허용하는 경우는 never와 어울리는 throw error 다.
-  - **에러남**
-    ![스크린샷 2023-02-12 오후 10.28.23.png](../img/type_4.png)
-  - **에러 안남**
-    ![스크린샷 2023-02-12 오후 10.29.10.png](../img/type_5.png)
+  - **에러남** <br>
+    <img src="../img/type_4.png" width = "275px">
+  - **에러 안남** <br>
+    <img src="../img/type_5.png" width = "275px">
