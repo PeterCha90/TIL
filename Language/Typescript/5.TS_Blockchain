@@ -1,0 +1,234 @@
+# Typescript Blockchain
+
+### `**.d.ts` 파일과 `JsDocs`**
+
+---
+
+- 기존의 자바스크립트에 TS를 적용하는 방법은 크게 두 가지가 있다고 할 수 있다.
+    1. filename.d.ts 처럼 그 함수가 어떤 call signature를 가지고 있는지 모두 선언(declaration)을 하고 있는 `.d.ts` 파일을 만들기.
+    2. JsDocs로 주석으로 일일히 싹다 명시해주기. 아래와 같이 주석으로 `@ts-check` 를 쓰고 `/** */ 안에 내용으로 TS와 같이 parameter의 type와 return 값 등을 하나하나 명시해주면 TS에서 해당 함수를 모듈로 import해서 쓸 때 TS가 안전하게 문법체크를 해준다. 
+        
+        ```jsx
+        // @ts-check
+        /**
+         *
+         * @param {string} config:string
+         * @returns number
+         */
+        export function init(config) {
+          return true
+        }
+        ```
+        
+
+### 개발환경 세팅하기
+
+---
+
+**설치할 패키지**
+
+1. `@types/node` : [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). 전세계 TS 개발자들이 기존 JS에 TS를 적용하기 위해 집단지성을 발휘에 만들어 논 call signature declaration file인 `**.d.ts**` 파일의 집합소. `/node` 는 Node.js에 해당하는 **.d.ts** 파일을 받아오는 것. types/express라고 쓰면 express에서 TS를 쓰기위한 .d.ts파일을 받아온다. 
+2. `ts-node` : build할 필요 없이 타입스크립트를 ‘개발환경에서’ 새로고침해서 확인할 수 있게 해준다. 
+3. `nodemon` : 서버를 매번 죽이고 새로 시작할 필요 없이, 변경사항이 저장될 경우 서버 재실행
+
+**초기화**
+
+- 프로젝트 폴더에서,
+    
+    ```bash
+    $ npm init -y
+    ```
+    
+
+**설치**
+
+- -D 옵션으로 package.json 상에서 ‘devDependencies’로 인지.
+    
+    ```bash
+    $ npm i -D packageName
+    ```
+    
+
+### tsconfig.json
+
+---
+
+- tsconfig.json를 아래와 같이 새로 만들어주자.
+    - include는 컴파일할 소스코드가 있는 위치를
+    - compilerOptions는
+        - “outDir”로 컴파일 결과를 저장할 폴더이름을
+        - “target”으로 컴파일 결과의 JS 버전을
+        - “lib”로 자동완성을 만들기 위해 사용할 런타임 환경을,(웹이면 “DOM”추가)
+        - “strict”으로 `.d.ts` 즉, TS의 자동완성을 가능하게 해주는 call signiture 뭉치인, 선언파일(declaration file)을 엄격하게 체크하게 할지 여부를
+        - “esModuleInterop” 옵션으로는
+
+```json
+{
+  // code to be compiled
+  "include": ["src"],
+  //
+  "compilerOptions": {
+    "outDir": "build",
+    // compile to
+    "target": "ES6",
+    // specify the runtime environment to make autocompletes.
+    "lib": ["ES6"],
+    // check the declaration file strictly
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "CommonJS",
+		// to make JS also can work with TS.
+		// "allowJs": true 
+  }
+}
+```
+
+### package.json
+
+---
+
+- 포인트는 `package.json`의  `scripts` 부분 `scripts` 파트에서
+    - “start”는 서버 실생시 시작할 명령어
+    - “dev”는 테스트할 때 실행할 명령어
+    - “build”는 실제 output 컴파일할 명령어.
+- `tsconfig.json` 에서 설정한 환경의 콜라보로, **`$ npm run build` 를 하면 TS로 적은 파일이 outDir에 해당하는 폴더에 JS 아웃풋으로 컴파일 결과가 저장이 된다.**
+
+```json
+{
+  "name": "typechain",
+  "version": "1.0.0",
+  "description": "",
+  **"scripts": {
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "start": "node build/index.js"
+  },**
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
+```
+
+### src/index.ts
+
+---
+
+- Blockchain Class의 `getBlocks()` 는, **실제 this.blocks가 아닌, rest 문법을 사용해서 새 배열에 값을 할당함으로, 실제 데이터를 건들지 못하게 하는 트릭을 보여준다. 좋은 꿀팁**이니 기억하자!
+
+```tsx
+import crypto from 'crypto'
+
+interface BlockShape {
+  hash: string
+  prevHash: string
+  height: number
+  data: string
+}
+
+class Block implements BlockShape {
+  public hash: string
+  constructor(
+    public prevHash: string,
+    public height: number,
+    public data: string,
+  ) {
+    this.hash = Block.calculateHash(
+      prevHash,
+      height,
+      data,
+    )
+  }
+  static calculateHash(
+    prevHash: string,
+    height: number,
+    data: string,
+  ) {
+    const toHash = `${prevHash}${height}${data}`
+    return crypto
+      .createHash('sha256')
+      .update(toHash)
+      .digest('hex')
+  }
+}
+
+class Blockchain {
+  private readonly blocks: Block[]
+  constructor() {
+    this.blocks = []
+  }
+  private getPrevHash() {
+    if (this.blocks.length === 0) return ''
+    return this.blocks[this.blocks.length - 1]
+      .hash
+  }
+  public addBlock(data: string) {
+    const newBlock = new Block(
+      this.getPrevHash(),
+      this.blocks.length + 1,
+      data,
+    )
+    this.blocks.push(newBlock)
+  }
+  **public getBlocks() {
+    return [...this.blocks]
+  }**
+}
+
+const blockchain = new Blockchain()
+
+blockchain.addBlock('First one')
+blockchain.addBlock('Second one')
+blockchain.addBlock('Third one')
+blockchain
+  .getBlocks()
+  .push(new Block('xxxxx', 1111, 'HACKKEDDDDD'))
+
+console.log(blockchain.getBlocks())
+```
+
+### Result
+
+---
+
+- getBlocks() 에서의 Trick 덕에,
+    
+    ```bash
+    blockchain
+      .getBlocks()
+      .push(new Block('xxxxx', 1111, 'HACKKEDDDDD'))
+    ```
+    
+    로 실제 값에 4번째 체인으로 해킹당하지 않고 딱 3번째까지만 출력되는 것을 확인할 수 있다. 
+    
+
+```bash
+[nodemon] restarting due to changes...
+[nodemon] starting `ts-node src/index.ts`
+[
+  Block {
+    prevHash: '',
+    height: 1,
+    data: 'First one',
+    hash: 'd90f2cc6ecdb63760af30f041a06e85e9a4d3376cccc09ff807e08c749e81ca9'
+  },
+  Block {
+    prevHash: 'd90f2cc6ecdb63760af30f041a06e85e9a4d3376cccc09ff807e08c749e81ca9',
+    height: 2,
+    data: 'Second one',
+    hash: '21625d153b9a2ba0996ac8a8ce85b78d5512a4c0bbf647548b0befab3e9b3cfe'
+  },
+  Block {
+    prevHash: '21625d153b9a2ba0996ac8a8ce85b78d5512a4c0bbf647548b0befab3e9b3cfe',
+    height: 3,
+    data: 'Third one',
+    hash: '33090390c5b209e1796881ef8aa55128e9beab0941cbc6f4989260d6f5bd961b'
+  }
+]
+[nodemon] clean exit - waiting for changes before restart
+```
