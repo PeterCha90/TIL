@@ -17,7 +17,7 @@
   ```
   * typescript를 사용하고 싶다면,
     ```Shell
-    $ npx create-react-app project-name --typescript
+    $ npx create-react-app my-app --template typescript
     ```
   
 * NextJS App 개발 시작하기
