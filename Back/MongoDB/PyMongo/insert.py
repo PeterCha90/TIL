@@ -17,7 +17,7 @@ new_account = {
     "account_holder": "Peter Cha",
     "account_id": "MDB93929292",
     "account_type": "checking",
-    "balance": 999999999999,
+    "balance": 900,
     "last_updated": datetime.utcnow(),
 }
 
@@ -31,14 +31,14 @@ new_accounts = [
     {
         "account_id": "MDB011235813",
         "account_holder": "Ada Lovelace",
-        "account_type": "checking",
-        "balance": 60218,
+        "account_type": "savings",
+        "balance": 100,
     },
     {
         "account_id": "MDB829000001",
         "account_holder": "Muhammad ibn Musa al-Khwarizmi",
         "account_type": "savings",
-        "balance": 267914296,
+        "balance": 300,
     },
 ]
 

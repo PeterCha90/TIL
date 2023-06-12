@@ -29,7 +29,7 @@ print("Searching for target document after delete: ")
 pprint(accounts_collection.find_one(document_to_delete))
 print("Documents deleted: " + str(result.deleted_count))
 
-# find with Query
+# delete many
 documents_to_delete = {
     'balance': {"$lt": 300000000}
 }
