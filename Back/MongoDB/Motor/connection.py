@@ -11,8 +11,6 @@ client = AsyncIOMotorClient(MONGODB_URL)
 
 
 async def ping_server():
-    # Replace the placeholder with your Atlas connection string
-
     # Send a ping to confirm a successful connection
     try:
         client.admin.command('ping')
