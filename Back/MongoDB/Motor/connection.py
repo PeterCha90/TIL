@@ -23,3 +23,4 @@ async def ping_server():
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(ping_server())
+loop.close()
