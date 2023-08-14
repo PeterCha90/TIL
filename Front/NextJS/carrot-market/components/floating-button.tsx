@@ -1,9 +1,9 @@
-import Link from "next/link";
-import React from "react";
+import Link from "next/link"
+import React from "react"
 
 interface FloatingButton {
-  children: React.ReactNode;
-  href: string;
+  children: React.ReactNode
+  href: string
 }
 
 export default function FloatingButton({ children, href }: FloatingButton) {
@@ -13,5 +13,5 @@ export default function FloatingButton({ children, href }: FloatingButton) {
         {children}
       </a>
     </Link>
-  );
+  )
 }
