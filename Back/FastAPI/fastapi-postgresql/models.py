@@ -1,61 +1,64 @@
-from pydantic import BaseModel
-from typing import List, Tuple, Optional
+from pydantic import BaseModel, Field
+from typing import List, Tuple, Optional, Any
 
 
 class DictList(BaseModel):
-    DRAWE_CPHN_NO: Optional[str]
-    LOC_NATNL_CD: Optional[str]
-    ERROR_CD: Optional[str]
-    RELAY_BNK_NAME: Optional[str]
-    IMPRT_USAG_DSTC: Optional[str]
-    PYBNK_NAME: Optional[str]
-    RMTANC_DTTuple_CTNT: Optional[str]
-    PYBNK_ADDR: Optional[str]
-    DRAWE_ADDR_TELNO: Optional[str]
-    PYBNK_NO: Optional[str]
-    PYBNK_BIC: Optional[str]
-    RMTR_TELNO: Optional[str]
-    DRAWE_FNAME: Optional[str]
-    IMPRT_RPRT_NO: Optional[str]
-    RMTR_ENG_NAME: Optional[str]
-    HS_CD: Optional[str]
-
-
-class DictEntry(BaseModel):
-    dictionary: Optional[DictList]
-
-
-class BboxList(BaseModel):
+    DRAWE_CPHN_NO: Optional[str] = None
+    LOC_NATNL_CD: Optional[str] = None
+    ERROR_CD: Optional[str] = None
+    RELAY_BNK_NAME: Optional[str] = None
+    IMPRT_USAG_DSTC: Optional[str] = None
+    PYBNK_NAME: Optional[str] = None
+    RMTANC_DTLIST_CTNT: Optional[str] = None
+    PYBNK_ADDR: Optional[str] = None
+    DRAWE_ADDR_TELNO: Optional[str] = None
+    PYBNK_NO: Optional[str] = None
+    PYBNK_BIC: Optional[str] = None
+    RMTR_TELNO: Optional[str] = None
+    DRAWE_FNAME: Optional[str] = None
+    IMPRT_RPRT_NO: Optional[str] = None
+    RMTR_ENG_NAME: Optional[str] = None
+    HS_CD: Optional[str] = None
     buyer: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     seller: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     consignee: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
+
     commodity: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     quantity: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     unit_price: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     amount: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     description_of_goods: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     origin: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     time_of_shipment: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     Beneficiary_name: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     AccountNo: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
+        List[Optional[Any]]
+    ] = None
     Beneficiary_Bank: Optional[
-        Tuple[str, List[Tuple[float, float]], float]]
-
-
-class BboxesEntry(BaseModel):
-    bboxes: Optional[BboxList]
+        List[Optional[Any]]
+    ] = None
 
 
 class TimeEntry(BaseModel):
@@ -63,6 +66,11 @@ class TimeEntry(BaseModel):
     end: Optional[str]
 
 
+class OcrData(BaseModel):
+    reply_dict: DictList
+
+
 class OcrResult(BaseModel):
-    reply: Optional[List[Tuple[DictEntry, BboxesEntry]]]
-    time: Optional[TimeEntry]
+    reply: List[OcrData]
+    time: TimeEntry
+    ppr_key: str

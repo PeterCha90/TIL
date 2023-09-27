@@ -1,4 +1,6 @@
-fastapi[all]
+fastapi
+fastapi-offline
 uvicorn
-sqlalchemy
+gunicorn
+SQLAlchemy
 psycopg2-binary

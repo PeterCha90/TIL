@@ -1,24 +1,14 @@
 {
+  "ppr_key": "1111",
   "reply": [
     {
-      "dictionary": {
-        "DRAWE_CPHN_NO": "1231241",
-        "LOC_NATNL_CD": "qqqvcqdf"
+      "reply_dict": {
+        "DRAWE_CPHN_NO": "1231241"
       }
     },
     {
-      "bboxes": {
+      "reply_dict": {
         "buyer": [
-          "buyer",
-          [
-            [1.2, 2.3],
-            [3.4, 4.4],
-            [3.4, 3.4],
-            [3.4, 3.4]
-          ],
-          1.0
-        ],
-        "seller": [
           "seller",
           [
             [1.2, 2.3],
@@ -27,7 +17,8 @@
             [3.4, 3.4]
           ],
           1.0
-        ]
+        ],
+        "seller": []
       }
     }
   ],

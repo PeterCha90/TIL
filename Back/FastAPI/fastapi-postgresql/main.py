@@ -5,9 +5,10 @@ from models import *
 from typing import List, Annotated
 from sqlalchemy.orm import Session
 from database import engine, SessionLocal
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi_offline import FastAPIOffline
+from fastapi import Depends, HTTPException
 
-app = FastAPI()
+app = FastAPIOffline()
 tables.Base.metadata.create_all(bind=engine)
 
 
@@ -25,18 +26,27 @@ db_dependency = Annotated[Session, Depends(get_db)]
 @app.post("/save_result/")
 async def save_result(result: OcrResult,
                       db: db_dependency):
+
     ocr_result = result.dict()
-    ocr_json = json.dumps(ocr_result)
-    ocr_json = tables.OcrResult(result=ocr_json)
-    db.add(ocr_json)
+    ppr_key = ocr_result['ppr_key']
+    ocr_json = ocr_result['reply']
+    ocr_start = ocr_result['time']['start']
+    ocr_end = ocr_result['time']['end']
+
+    ocr_json = json.dumps(ocr_json)
+    ocr_data = tables.OcrResult(ppr_key=ppr_key,
+                                result=ocr_json,
+                                start=ocr_start,
+                                end=ocr_end)
+    db.add(ocr_data)
     db.commit()
-    db.refresh(ocr_json)
+    db.refresh(ocr_data)
 
 
-@app.get("/ocr_result/{result_id}")
-async def read_result(result_id: int, db: db_dependency):
+@app.get("/ocr_result/{ppr_key}")
+async def read_result(ppr_key: str, db: db_dependency):
     result = db.query(tables.OcrResult).filter(
-        tables.OcrResult.id == result_id).all()
+        tables.OcrResult.ppr_key == ppr_key).all()
     if not result:
         raise HTTPException(status_code=404,
                             detail='Result is not found')
